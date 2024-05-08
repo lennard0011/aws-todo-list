@@ -24,9 +24,11 @@
       "./node_modules/@types"
     ],
     "outDir": "./build",
+    "rootDir": "./src",	
   },
   "exclude": [
     "node_modules",
-    "cdk.out"
+    "cdk.out",
+    "build"
   ]
 }
