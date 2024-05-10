@@ -1,3 +1,3 @@
 export const DOMAIN_NAME = "lennardvanderplas.com";
 export const DOMAIN_CERTIFICATE_ARN =
-  "arn:aws:acm:us-east-1:154880243201:certificate/97562f96-7409-412e-8199-edcbe491db77";
+  "arn:aws:acm:us-east-1:154880243201:certificate/3ca56716-e17b-4130-9af4-449c31fa2aa8";

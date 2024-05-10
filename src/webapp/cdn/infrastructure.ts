@@ -5,6 +5,7 @@ import {
   CachedMethods,
   Distribution,
   OriginAccessIdentity,
+  PriceClass,
   SecurityPolicyProtocol,
   ViewerProtocolPolicy,
 } from "aws-cdk-lib/aws-cloudfront";
@@ -55,7 +56,7 @@ export class ContentDeliveryNetwork extends Construct {
       defaultRootObject: "index.html",
       domainNames: [siteDomain],
       certificate,
-      minimumProtocolVersion: SecurityPolicyProtocol.TLS_V1_2_2019,
+      minimumProtocolVersion: SecurityPolicyProtocol.TLS_V1_2_2021,
       errorResponses: [
         {
           httpStatus: 403,
@@ -79,6 +80,7 @@ export class ContentDeliveryNetwork extends Construct {
         cachedMethods: CachedMethods.CACHE_GET_HEAD,
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       },
+      priceClass: PriceClass.PRICE_CLASS_100,
     });
 
     new ARecord(this, "SiteAliasRecord", {
