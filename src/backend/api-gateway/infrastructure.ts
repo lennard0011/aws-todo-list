@@ -23,11 +23,9 @@ export class ApiGateway extends Construct {
 
     const { handler, rootDomain, domainName, userPool } = props;
 
-    const certificate = Certificate.fromCertificateArn(
-      this,
-      "Certificate",
-      "arn:aws:acm:us-east-1:154880243201:certificate/97562f96-7409-412e-8199-edcbe491db77",
-    );
+    const certificate = new Certificate(this, "ApiGateWayCertificate", {
+      domainName,
+    });
 
     const authorizer = new CognitoUserPoolsAuthorizer(
       this,

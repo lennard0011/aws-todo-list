@@ -9,10 +9,19 @@
     "watch": "tsc -w",
     "test": "jest",
     "format": "prettier --write ./**/*.ts",
-    "lint": "eslint --fix",
-    "predeploy": "npm run build",
-    "deploy": "cdk deploy --all",
-    "webapp:dev": "vite"
+    "lint": "eslint --fix --report-unused-disable-directives --max-warnings 0",
+    "preall:deploy": "npm run build",
+    "all:deploy": "cdk deploy --all",
+
+    "prebackend:deploy": "npm run build",
+    "backend:deploy": "cdk deploy 'ToDoListBackend'",
+    
+    "preauthentication:deploy": "npm run build",
+    "authentication:deploy": "cdk deploy 'ToDoListAuthentication'",
+
+    "webapp:deploy": "cdk deploy 'ToDoListWebapp'",
+    "webapp:dev": "vite",
+    "webapp:build": "vite build"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
@@ -33,7 +42,6 @@
   "dependencies": {
     "aws-cdk-lib": "2.140.0",
     "constructs": "^10.0.0",
-    "source-map-support": "^0.5.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

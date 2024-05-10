@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import "source-map-support/register";
 import { Webapp } from "./webapp/compontent";
 import { DOMAIN_NAME, DOMAIN_CERTIFICATE_ARN } from "./constants";
 import { App } from "aws-cdk-lib";
@@ -23,7 +22,7 @@ const webappProps = {
   domainName: DOMAIN_NAME,
   domainCertificateArn: DOMAIN_CERTIFICATE_ARN,
 };
-new Webapp(app, "ToDoList", webappProps);
+new Webapp(app, "ToDoListWebapp", webappProps);
 
 const authenticationProps = {
   env,

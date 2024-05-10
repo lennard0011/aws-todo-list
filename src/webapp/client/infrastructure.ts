@@ -22,7 +22,7 @@ export class Client extends Construct {
     });
 
     new BucketDeployment(this, "DeployWebsite", {
-      sources: [Source.asset("./assets")],
+      sources: [Source.asset("./build-web-interface")],
       destinationBucket: this.sourceBucket,
     });
   }
