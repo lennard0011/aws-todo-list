@@ -18,14 +18,14 @@ import { Construct } from "constructs";
 type Props = {
   sourceBucket: Bucket;
   domainName: string;
-  certificateArn: string;
+  domainCertificateArn: string;
 };
 
 export class ContentDeliveryNetwork extends Construct {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id);
 
-    const { sourceBucket, domainName, certificateArn } = props;
+    const { sourceBucket, domainName, domainCertificateArn } = props;
 
     const zone = HostedZone.fromLookup(this, "Zone", { domainName });
     const siteDomain = domainName;
@@ -48,7 +48,7 @@ export class ContentDeliveryNetwork extends Construct {
     const certificate = Certificate.fromCertificateArn(
       this,
       "Certificate",
-      certificateArn,
+      domainCertificateArn,
     );
 
     const distribution = new Distribution(this, "CDNWebDistribution", {
