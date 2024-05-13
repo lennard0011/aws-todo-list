@@ -1,5 +1,6 @@
 import {
   CognitoUserPoolsAuthorizer,
+  Cors,
   LambdaRestApi,
 } from "aws-cdk-lib/aws-apigateway";
 import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
@@ -11,6 +12,7 @@ import { Construct } from "constructs";
 import { addARecord } from "../../utils/addARecord";
 
 type Props = {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   handler: Function;
   rootDomain: string;
   domainName: string;
@@ -44,6 +46,11 @@ export class ApiGateway extends Construct {
       },
       defaultMethodOptions: {
         authorizer,
+      },
+      defaultCorsPreflightOptions: {
+        allowOrigins: ["http://localhost:5173", `https://${rootDomain}`],
+        allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowHeaders: Cors.DEFAULT_HEADERS,
       },
     });
 

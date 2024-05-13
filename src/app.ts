@@ -17,13 +17,6 @@ const env = {
   region: process.env.CDK_DEFAULT_REGION!,
 };
 
-const webappProps = {
-  env: env,
-  domainName: DOMAIN_NAME,
-  domainCertificateArn: DOMAIN_CERTIFICATE_ARN,
-};
-new Webapp(app, "ToDoListWebapp", webappProps);
-
 const authenticationProps = {
   env,
   rootDomain: DOMAIN_NAME,
@@ -36,6 +29,13 @@ const authentication = new Authentication(
   authenticationProps,
 );
 const { userPool } = authentication.authRepository;
+
+const webappProps = {
+  env: env,
+  domainName: DOMAIN_NAME,
+  domainCertificateArn: DOMAIN_CERTIFICATE_ARN,
+};
+new Webapp(app, "ToDoListWebapp", webappProps);
 
 const backendProps = {
   env: env,

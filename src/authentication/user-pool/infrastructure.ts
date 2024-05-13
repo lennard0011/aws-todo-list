@@ -3,7 +3,9 @@ import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import {
   AccountRecovery,
   AdvancedSecurityMode,
+  OAuthScope,
   UserPool,
+  UserPoolClient,
   VerificationEmailStyle,
 } from "aws-cdk-lib/aws-cognito";
 import { RecordTarget } from "aws-cdk-lib/aws-route53";
@@ -18,6 +20,7 @@ type Props = {
 
 export class AuthRepository extends Construct {
   readonly userPool: UserPool;
+  readonly userPoolClient: UserPoolClient;
 
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id);
@@ -48,7 +51,8 @@ export class AuthRepository extends Construct {
       },
       accountRecovery: AccountRecovery.EMAIL_ONLY,
       removalPolicy: RemovalPolicy.DESTROY,
-      advancedSecurityMode: AdvancedSecurityMode.ENFORCED,
+      // Advanced security features are disabled as they are outside the free tier
+      advancedSecurityMode: AdvancedSecurityMode.OFF,
     });
 
     //needs to be certificate from us-east-1
@@ -63,6 +67,22 @@ export class AuthRepository extends Construct {
         domainName: authenticationDomainName,
         certificate,
       },
+    });
+
+    this.userPoolClient = this.userPool.addClient("user-pool-client", {
+      userPoolClientName: "user-pool-client",
+      authFlows: {
+        userPassword: true,
+        userSrp: true,
+      },
+      oAuth: {
+        flows: {
+          authorizationCodeGrant: true,
+        },
+        scopes: [OAuthScope.EMAIL, OAuthScope.OPENID, OAuthScope.PROFILE],
+        callbackUrls: [rootDomain],
+      },
+      generateSecret: false,
     });
 
     addARecord(

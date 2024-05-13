@@ -1,14 +1,22 @@
-export const handler = async (event: { body: string }): Promise<any> => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const handler = async (event: { body: string, requestContext: { authorizer: { claims: { sub: string}}} }): Promise<any> => {
+  const userId = event.requestContext.authorizer.claims.sub;
   try {
-    const body = JSON.parse(event.body);
     return {
-      statusCode: 200,
-      body: JSON.stringify(body),
+        statusCode: 200,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+        },
+        body: userId,
     };
-  } catch (error) {
+}
+catch (error) {
     return {
-      statusCode: 500,
-      body: JSON.stringify({ message: "Internal Server Error" }),
+        statusCode: 500,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+        },
+        body: userId,
     };
-  }
+}
 };

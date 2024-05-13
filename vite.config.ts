@@ -4,8 +4,8 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  root: 'src/webapp/client/web-interface',
+  root: "src/webapp/client/web-interface",
   build: {
-    outDir: '../../../../build-web-interface',
-  }
+    outDir: "../../../../build-web-interface",
+  },
 });
