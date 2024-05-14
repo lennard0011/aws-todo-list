@@ -10,7 +10,7 @@
     "test": "jest",
     "format": "prettier --write ./**/*.ts",
     "lint": "eslint --fix --report-unused-disable-directives --max-warnings 0",
-    "preall:deploy": "npm run build",
+    "preall:deploy": "npm run build && npm run webapp:build",
     "all:deploy": "cdk deploy --all",
     "prebackend:deploy": "npm run build",
     "backend:deploy": "cdk deploy 'ToDoListBackend'",

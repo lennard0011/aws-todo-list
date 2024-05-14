@@ -1,4 +1,5 @@
 import { RemovalPolicy } from "aws-cdk-lib";
+import { Distribution } from "aws-cdk-lib/aws-cloudfront";
 import {
   BlockPublicAccess,
   Bucket,
@@ -20,10 +21,14 @@ export class Client extends Construct {
       removalPolicy: RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
     });
+  }
 
+  deployContent(distribution: Distribution) {
     new BucketDeployment(this, "DeployWebsite", {
       sources: [Source.asset("./build-web-interface")],
       destinationBucket: this.sourceBucket,
+      distribution,
+      distributionPaths: ["/*"],
     });
   }
 }

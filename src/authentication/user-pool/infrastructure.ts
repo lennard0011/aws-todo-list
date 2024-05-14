@@ -80,7 +80,7 @@ export class AuthRepository extends Construct {
           authorizationCodeGrant: true,
         },
         scopes: [OAuthScope.EMAIL, OAuthScope.OPENID, OAuthScope.PROFILE],
-        callbackUrls: [rootDomain],
+        callbackUrls: [`https://${rootDomain}`],
       },
       generateSecret: false,
     });

@@ -13,11 +13,11 @@ import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins";
 import { CanonicalUserPrincipal, PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { ARecord, HostedZone, RecordTarget } from "aws-cdk-lib/aws-route53";
 import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
-import { Bucket } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
+import { Client } from "../client/infrastructure";
 
 type Props = {
-  sourceBucket: Bucket;
+  client: Client;
   domainName: string;
   domainCertificateArn: string;
 };
@@ -26,7 +26,8 @@ export class ContentDeliveryNetwork extends Construct {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id);
 
-    const { sourceBucket, domainName, domainCertificateArn } = props;
+    const { client, domainName, domainCertificateArn } = props;
+    const { sourceBucket } = client;
 
     const zone = HostedZone.fromLookup(this, "Zone", { domainName });
     const siteDomain = domainName;
@@ -88,5 +89,7 @@ export class ContentDeliveryNetwork extends Construct {
       target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
       zone,
     });
+
+    client.deployContent(distribution);
   }
 }

@@ -49,7 +49,6 @@ export class ApiGateway extends Construct {
       },
       defaultCorsPreflightOptions: {
         allowOrigins: ["http://localhost:5173", `https://${rootDomain}`],
-        allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allowHeaders: Cors.DEFAULT_HEADERS,
       },
     });
