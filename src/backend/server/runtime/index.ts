@@ -46,6 +46,6 @@ export const handler = async (
           return getTasks(userId);
       }
   }
-  
+
   return notFoundResponse;
 };
