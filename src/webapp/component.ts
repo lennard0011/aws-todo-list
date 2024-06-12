@@ -17,7 +17,7 @@ export class Webapp extends Stack {
 
     const client = new Client(this, "Client");
     new ContentDeliveryNetwork(this, "ContentDeliveryNetwork", {
-      sourceBucket: client.sourceBucket,
+      client,
       domainName,
       domainCertificateArn,
     });

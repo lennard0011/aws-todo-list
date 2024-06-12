@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { Webapp } from "./webapp/compontent";
+import { Webapp } from "./webapp/component";
 import { DOMAIN_NAME, DOMAIN_CERTIFICATE_ARN } from "./constants";
 import { App } from "aws-cdk-lib";
 import { Backend } from "./backend/component";
