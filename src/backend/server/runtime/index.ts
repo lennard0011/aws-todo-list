@@ -45,8 +45,7 @@ export const handler = async (
         case "GET":
           return getTasks(userId);
       }
-      break;
-    default:
-      return notFoundResponse;
   }
+  
+  return notFoundResponse;
 };
