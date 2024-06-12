@@ -79,8 +79,14 @@ export class AuthRepository extends Construct {
         flows: {
           authorizationCodeGrant: true,
         },
-        scopes: [OAuthScope.EMAIL, OAuthScope.OPENID, OAuthScope.PROFILE],
-        callbackUrls: [`https://${rootDomain}`],
+        scopes: [
+          OAuthScope.EMAIL,
+          OAuthScope.OPENID,
+          OAuthScope.PROFILE,
+          OAuthScope.PHONE,
+          OAuthScope.COGNITO_ADMIN,
+        ],
+        callbackUrls: [`https://${rootDomain}`, "http://localhost:5173/"],
       },
       generateSecret: false,
     });

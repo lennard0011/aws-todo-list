@@ -1,22 +1,52 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const handler = async (event: { body: string, requestContext: { authorizer: { claims: { sub: string}}} }): Promise<any> => {
+import { createTask } from "./task/create-task";
+import { getTasks } from "./task/get-task";
+
+type HandlerInput = {
+  path: string;
+  httpMethod: string;
+  body: string;
+  requestContext: {
+    authorizer: {
+      claims: {
+        sub: string;
+      };
+    };
+  };
+};
+
+export type HandlerResponse = {
+  statusCode: number;
+  headers: { "Access-Control-Allow-Origin": string };
+  body?: unknown;
+};
+
+const notFoundResponse = {
+  statusCode: 404,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+  body: "Not Found",
+};
+
+export const handler = async (
+  event: HandlerInput,
+): Promise<HandlerResponse> => {
   const userId = event.requestContext.authorizer.claims.sub;
-  try {
-    return {
-        statusCode: 200,
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-        },
-        body: userId,
-    };
-}
-catch (error) {
-    return {
-        statusCode: 500,
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-        },
-        body: userId,
-    };
-}
+
+  const path = event.path;
+  const method = event.httpMethod;
+  const body = JSON.parse(event.body);
+
+  switch (path) {
+    case "/task":
+      switch (method) {
+        case "POST":
+          return createTask(userId, body);
+        case "GET":
+          return getTasks(userId);
+      }
+      break;
+    default:
+      return notFoundResponse;
+  }
 };

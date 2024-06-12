@@ -1,14 +1,18 @@
-import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
+import {
+  Code,
+  Function as LambdaFunction,
+  Runtime,
+} from "aws-cdk-lib/aws-lambda";
 import { Construct } from "constructs";
 import { join } from "path";
 
 export class Server extends Construct {
-  readonly lambdaFunction: Function;
+  readonly lambdaFunction: LambdaFunction;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.lambdaFunction = new Function(this, "Lambda", {
+    this.lambdaFunction = new LambdaFunction(this, "Lambda", {
       runtime: Runtime.NODEJS_20_X,
       handler: "index.handler",
       code: Code.fromAsset(join(__dirname, "./runtime")),

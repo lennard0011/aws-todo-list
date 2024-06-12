@@ -6,17 +6,14 @@ const Status: FC = () => {
     const [ userInfo, setUserInfo ] = useState("");
 
     async function fetchUserInfo(token: string) {
-        const response = await fetch('https://api.lennardvanderplas.com', {
+        const response = await fetch('https://api.lennardvanderplas.com/hello/world', {
             method: 'POST',
-            //mode: 'no-cors',
             headers: {
                 "Content-Type": "application/json",
                 Accept: '*/*',
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({
-                hello: 'world',
-            }),
+            body: JSON.stringify({hello: 'world222'}),
         });
     
         if (!response.ok) {
@@ -34,12 +31,27 @@ const Status: FC = () => {
         fetchUserInfo(token.idToken);
     }
 
-    //const loginUrl = 'https://auth.lennardvanderplas.com/login?client_id=2r1po1ganeb8fctkubs6lch5ke&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https%3A%2F%2Flennardvanderplas.com';
-    const loginUrl = 'https://auth.lennardvanderplas.com/login?client_id=2r1po1ganeb8fctkubs6lch5ke&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=http%3A%2F%2Flocalhost:5173/';
+    // const loginUrl = 'https://auth.lennardvanderplas.com/login?client_id=2r1po1ganeb8fctkubs6lch5ke&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=https%3A%2F%2Flennardvanderplas.com';
+    // const loginUrl = 'https://auth.lennardvanderplas.com/login?client_id=2r1po1ganeb8fctkubs6lch5ke&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=http%3A%2F%2Flocalhost:5173/';
+    const loginUrl = 'https://auth.lennardvanderplas.com/login?client_id=2r1po1ganeb8fctkubs6lch5ke&response_type=code&scope=email+openid+profile&redirect_uri=http%3A%2F%2Flocalhost:5173/'
+
+    console.log(`token: ${token}`);
 
     return (
         <div>
-            { token ? <div><button onClick={handleSubmit}>click</button><p>{`${JSON.stringify(userInfo)}`}</p></div> : <a href={loginUrl}>login</a> }
+            { token ? 
+                <div>
+                    <button onClick={handleSubmit}>
+                        click
+                    </button>
+                    <p>
+                        {`${JSON.stringify(userInfo)}`}
+                    </p>
+                </div> 
+                : 
+                <a href={loginUrl}>
+                    login
+                </a> }
         </div>
     );
 };
