@@ -4,6 +4,7 @@ import { Environment } from "../app";
 import { Server } from "./server/infrastructure";
 import { ApiGateway } from "./api-gateway/infrastructure";
 import { UserPool } from "aws-cdk-lib/aws-cognito";
+import { Database } from "./database/infrastructure";
 
 type Props = {
   env: Environment;
@@ -17,7 +18,9 @@ export class Backend extends Stack {
     const { domainName, rootDomain, env, userPool } = props;
     super(scope, id, { env });
 
-    const server = new Server(this, "Server");
+    const tableName = "TaskTable";
+
+    const server = new Server(this, "Server", { tableName });
     const { lambdaFunction } = server;
 
     new ApiGateway(this, "ApiGateway", {
@@ -26,5 +29,7 @@ export class Backend extends Stack {
       handler: lambdaFunction,
       userPool,
     });
+
+    new Database(this, "Database", { tableName });
   }
 }

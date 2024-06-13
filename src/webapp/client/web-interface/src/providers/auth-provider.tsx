@@ -1,6 +1,5 @@
 import { FC, ReactNode, createContext, useEffect, useState } from 'react';
 
-
 type Token = {
     idToken: string;
     accessToken: string;
@@ -8,15 +7,27 @@ type Token = {
 }
 
 type AuthContextProps = {
-    token: Token | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fetchFromBackend: (url: string, method: string, body: Record<string, any>) => Promise<any>;
+    isAuthenticated: boolean;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
-    token: undefined,
+    fetchFromBackend: async () => {},
+    isAuthenticated: false,
 });
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [token, setToken] = useState(undefined as Token | undefined);
+
+    function getTokenFromCookie() {
+        const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+        return token;
+    }
+
+    function deleteTokenFromCookie() {
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    }
 
     // First check if user has a token, if so, set isAuthenticated to true
     // If no token, check if code in URL, if so, fetch token and set isAuthenticated to true
@@ -39,7 +50,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
             if (!response.ok) {
                 console.error('Failed to fetch token');
-                setToken(undefined);
+                //setToken(undefined);
                 return;
             }
 
@@ -55,12 +66,11 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
         if (token) return;
 
-        const cookieTokenString = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
+        const cookieTokenString = getTokenFromCookie();
 
         if (cookieTokenString) {
             const cookieToken = JSON.parse(cookieTokenString);
             setToken(cookieToken);
-            //setIsAuthenticated(true);
             return;
         }
 
@@ -73,8 +83,38 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         }
     }, [token]);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const fetchFromBackend = async (url: string, method: string, body: Record<string, any>) => {
+        const response = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token?.idToken}`,
+            },
+            body: JSON.stringify(body),
+        })
+
+        console.log(`response.status: ${response.status}`)
+
+        if (response.status === 401) {
+            console.error('Unauthorized');
+            deleteTokenFromCookie();
+            setToken(undefined);
+            return;
+        }
+
+        if (!response.ok) {
+            console.error('Failed to fetch from backend');
+            // deleteTokenFromCookie();
+            // setToken(undefined);
+            return;
+        }
+
+        return await response.json();
+    };
+
     return (
-        <AuthContext.Provider value={{ token }}>
+        <AuthContext.Provider value={{ fetchFromBackend, isAuthenticated: typeof token !== 'undefined' }}>
             {children}
         </AuthContext.Provider>
     );
