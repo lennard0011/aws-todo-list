@@ -13,7 +13,7 @@ export class CreateTaskAction {
     console.log(`Creating task for user ${userId}`);
     console.log(`Task: ${JSON.stringify(taskDto)}`);
 
-    this.dynamoDbClient.createTask(userId, {
+    await this.dynamoDbClient.createTask(userId, {
       title: taskDto.title,
       description: taskDto.description,
       status: TaskStatus.OPEN,

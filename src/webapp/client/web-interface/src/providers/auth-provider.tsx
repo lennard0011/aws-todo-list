@@ -8,7 +8,7 @@ type Token = {
 
 type AuthContextProps = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fetchFromBackend: (url: string, method: string, body: Record<string, any>) => Promise<any>;
+    fetchFromBackend: (url: string, method: string, body?: Record<string, any>) => Promise<any>;
     isAuthenticated: boolean;
 }
 
@@ -84,14 +84,15 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }, [token]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const fetchFromBackend = async (url: string, method: string, body: Record<string, any>) => {
+    const fetchFromBackend = async (url: string, method: string, body?: Record<string, any>) => {
         const response = await fetch(url, {
             method,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token?.idToken}`,
             },
-            body: JSON.stringify(body),
+            
+            body: body ? JSON.stringify(body) : undefined,
         })
 
         console.log(`response.status: ${response.status}`)
@@ -105,8 +106,8 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
         if (!response.ok) {
             console.error('Failed to fetch from backend');
-            // deleteTokenFromCookie();
-            // setToken(undefined);
+            deleteTokenFromCookie();
+            setToken(undefined);
             return;
         }
 

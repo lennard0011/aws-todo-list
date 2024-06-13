@@ -30,6 +30,8 @@ export class Backend extends Stack {
       userPool,
     });
 
-    new Database(this, "Database", { tableName });
+    const database = new Database(this, "Database", { tableName });
+
+    database.table.grantReadWriteData(lambdaFunction);
   }
 }

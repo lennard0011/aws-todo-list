@@ -11,7 +11,7 @@
     "format": "prettier --write ./**/*.ts",
     "lint": "eslint --fix --report-unused-disable-directives --max-warnings 0",
     "preall:deploy": "npm run build && npm run webapp:build",
-    "all:deploy": "cdk deploy --all",
+    "all:deploy": "cdk deploy --all --concurrency 10",
     "prebackend:deploy": "npm run build",
     "backend:deploy": "cdk deploy 'ToDoListBackend'",
     "preauthentication:deploy": "npm run build",

@@ -6,12 +6,16 @@ const Status: FC = () => {
     const [ userInfo, setUserInfo ] = useState("");
 
     async function fetchUserInfo() {
+        // const response = await fetchFromBackend('https://api.lennardvanderplas.com/task', 
+        //     'POST',
+        //     {title: 'title', description: 'description'},
+        // );
+
         const response = await fetchFromBackend('https://api.lennardvanderplas.com/task', 
-            'POST',
-            {title: 'title', description: 'description'},
+            'GET',
         );
-    
-        setUserInfo(await response.json());
+        
+        setUserInfo(response);
     }
 
     function handleSubmit(e: React.FormEvent<HTMLButtonElement>) {
