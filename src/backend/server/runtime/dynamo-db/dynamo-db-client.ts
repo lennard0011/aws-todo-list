@@ -5,8 +5,8 @@ import {
   PutCommand,
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
-import { TaskData } from "../task/task";
 import { randomUUID } from "crypto";
+import { TaskData } from "../task/task";
 
 const TASK_TABLE_NAME = process.env.TASK_TABLE_NAME!;
 
@@ -33,6 +33,7 @@ export class DynamoDbClient {
         taskId,
         title: task.title,
         description: task.description,
+        status: task.status,
       },
     });
 

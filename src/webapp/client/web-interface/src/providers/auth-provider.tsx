@@ -10,12 +10,21 @@ type AuthContextProps = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fetchFromBackend: (url: string, method: string, body?: Record<string, any>) => Promise<any>;
     isAuthenticated: boolean;
+    logIn: () => void;
+    logOut: () => void;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
     fetchFromBackend: async () => {},
     isAuthenticated: false,
+    logIn: () => {},
+    logOut: () => {},
 });
+
+const WEBAPP_URL = import.meta.env['VITE_WEBAPP_URL'];
+const BACKEND_URL = import.meta.env['VITE_BACKEND_URL'];
+const AUTH_URL = import.meta.env['VITE_AUTH_URL'];
+const USER_POOL_CLIENT_ID = import.meta.env['VITE_USER_POOL_CLIENT_ID'];
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [token, setToken] = useState(undefined as Token | undefined);
@@ -85,7 +94,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fetchFromBackend = async (url: string, method: string, body?: Record<string, any>) => {
-        const response = await fetch(url, {
+        const response = await fetch(`${BACKEND_URL}/${url}`, {
             method,
             headers: {
                 'Content-Type': 'application/json',
@@ -114,8 +123,20 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         return await response.json();
     };
 
+    const logIn = () => {
+        const loginUrl = `${AUTH_URL}/login?client_id=${USER_POOL_CLIENT_ID}&response_type=code&scope=email+openid+profile&redirect_uri=${WEBAPP_URL}`;
+        window.location.href = loginUrl;
+    };
+
+    const logOut = () => {
+        deleteTokenFromCookie();
+        setToken(undefined);
+    };
+
+    const isAuthenticated = typeof token !== 'undefined';
+
     return (
-        <AuthContext.Provider value={{ fetchFromBackend, isAuthenticated: typeof token !== 'undefined' }}>
+        <AuthContext.Provider value={{ fetchFromBackend, isAuthenticated, logIn, logOut }}>
             {children}
         </AuthContext.Provider>
     );

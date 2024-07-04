@@ -1,5 +1,7 @@
 # aws-todo-list
-A simple fullstack to-do list application using the AWS stack (S3, Cloudfront, Lambda, ApiGateway, DynamoDB, Cognito)
+A simple fullstack to-do list application using the AWS stack (S3, Cloudfront, Lambda, ApiGateway, DynamoDB, Cognito).
+
+The purpose of the project, a to-do list, is very simple. I picked this simple purpose as the goal of this project is to become more familiar
 
 Note
 

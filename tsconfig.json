@@ -37,5 +37,6 @@
     "cdk.out",
     "build",
     "vite.config.ts",
+    "src/webapp/client/web-interface",
   ],
 }
