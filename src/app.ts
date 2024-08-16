@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import { Webapp } from "./webapp/component";
-import { DOMAIN_NAME, DOMAIN_CERTIFICATE_ARN } from "./constants";
+import { DOMAIN_NAME, DOMAIN_CERTIFICATE_ARN, GITHUB_REPO } from "./constants";
 import { App } from "aws-cdk-lib";
 import { Backend } from "./backend/component";
 import { Authentication } from "./authentication/component";
+import { Deployment } from "./deployment/component";
 
 export type Environment = {
   account: string;
@@ -44,5 +45,12 @@ const backendProps = {
   userPool,
 };
 new Backend(app, "ToDoListBackend", backendProps);
+
+const deploymentProps = {
+  env: env,
+  githubRepo: GITHUB_REPO,
+  githubBranch: "main",
+};
+new Deployment(app, "ToDoListDeployment", deploymentProps);
 
 app.synth();
