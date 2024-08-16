@@ -1,27 +1,26 @@
 import { useContext, useState } from "react";
-import { AuthContext } from "../../providers/auth-provider";
+import { TaskContext } from "../../providers/task-provider";
 
 export const TaskForm = () => {
-    const { fetchFromBackend } = useContext(AuthContext);
+    const { createTask } = useContext(TaskContext);
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
-    async function createTask() {
-        await fetchFromBackend('https://api.lennardvanderplas.com/task', 
-            'POST',
-            {title: 'title', description: 'description'},
-        );
+    const submitTask = () => {
+        createTask({ title, description });
         setTitle('');
         setDescription('');
     }
 
     return (
         <div>
-            <h1>Task Form</h1>
+            <h1>Create new task</h1>
+            <label>Title</label>
             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <label>Description</label>
             <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
-            <button onClick={createTask}>Submit Task</button>
+            <button onClick={submitTask}>Submit Task</button>
         </div>
     );
 }

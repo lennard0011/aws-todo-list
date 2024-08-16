@@ -2,6 +2,7 @@ import { DynamoDbClient } from "./dynamo-db/dynamo-db-client";
 import { CreateTaskAction } from "./task/create-task-action";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { GetTasksAction } from "./task/get-task-action";
+import { DeleteTaskAction } from "./task/delete-task-action";
 
 const notAuthorizedResponse = {
   statusCode: 401,
@@ -42,8 +43,8 @@ export const handler = async (
 
   const dynamoDbClient = new DynamoDbClient();
 
-  switch (path) {
-    case "/task":
+  switch (true) {
+    case path.startsWith("/task"):
       switch (method) {
         case "POST": {
           if (!body) {
@@ -71,6 +72,17 @@ export const handler = async (
           const getTasksAction = new GetTasksAction(dynamoDbClient);
           return getTasksAction.handle(userId);
         }
+        case "DELETE": {
+          const splitPath = path.split("/");
+          if (splitPath.length !== 3) {
+            return notFoundResponse;
+          }
+          const id = splitPath[2];
+          const deleteTaskAction = new DeleteTaskAction(dynamoDbClient);
+          return deleteTaskAction.handle(userId, id);
+        }
+        default:
+          return notFoundResponse;
       }
   }
 

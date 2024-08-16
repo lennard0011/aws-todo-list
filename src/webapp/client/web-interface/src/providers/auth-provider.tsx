@@ -46,9 +46,8 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         async function fetchToken(code: string) {            
             const grantType = 'authorization_code';
             const clientId = '2r1po1ganeb8fctkubs6lch5ke';
-            const redirectUri = 'http://localhost:5173/';
 
-            const body = `grant_type=${grantType}&client_id=${clientId}&redirect_uri=${redirectUri}&code=${code}`
+            const body = `grant_type=${grantType}&client_id=${clientId}&redirect_uri=${WEBAPP_URL}&code=${code}`
             const response = await fetch(`https://auth.lennardvanderplas.com/oauth2/token/`, {
                 method: 'POST',
                 headers: {
@@ -89,6 +88,9 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
         if (code) {
             fetchToken(code);
+            
+            // remove code from url
+            window.history.replaceState({}, document.title, '/');
         }
     }, [token]);
 
@@ -113,12 +115,12 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
             return;
         }
 
-        if (!response.ok) {
-            console.error('Failed to fetch from backend');
-            deleteTokenFromCookie();
-            setToken(undefined);
-            return;
-        }
+        // if (!response.ok) {
+        //     console.error('Failed to fetch from backend');
+        //     deleteTokenFromCookie();
+        //     setToken(undefined);
+        //     return;
+        // }
 
         return await response.json();
     };

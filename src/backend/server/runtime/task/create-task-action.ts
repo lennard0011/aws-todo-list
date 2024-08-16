@@ -1,7 +1,7 @@
 import { DynamoDbClient } from "../dynamo-db/dynamo-db-client";
 import { TaskStatus } from "./task";
 
-type TaskDto = {
+type CreateTaskDto = {
   title: string;
   description: string;
 };
@@ -9,13 +9,13 @@ type TaskDto = {
 export class CreateTaskAction {
   constructor(private readonly dynamoDbClient: DynamoDbClient) {}
 
-  async handle(userId: string, taskDto: TaskDto) {
+  async handle(userId: string, CreateTaskDto: CreateTaskDto) {
     console.log(`Creating task for user ${userId}`);
-    console.log(`Task: ${JSON.stringify(taskDto)}`);
+    console.log(`Task: ${JSON.stringify(CreateTaskDto)}`);
 
-    await this.dynamoDbClient.createTask(userId, {
-      title: taskDto.title,
-      description: taskDto.description,
+    const taskId = await this.dynamoDbClient.createTask(userId, {
+      title: CreateTaskDto.title,
+      description: CreateTaskDto.description,
       status: TaskStatus.OPEN,
     });
 
@@ -24,7 +24,9 @@ export class CreateTaskAction {
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
-      body: "",
+      body: JSON.stringify({
+        id: taskId,
+      }),
     };
   }
 }

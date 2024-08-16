@@ -1,29 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../providers/auth-provider";
+import { useContext } from "react";
 import { TaskCard } from "./task-card";
-import { Task } from "./task";
+import { TaskContext } from "../../providers/task-provider";
 
 export const TaskList = () => {
-    const { fetchFromBackend } = useContext(AuthContext);
-
-    const [tasks, setTasks] = useState([] as Task[]);
-
-    useEffect(() => {
-        async function fetchUserInfo() {
-            const tasks = await fetchFromBackend('task', 
-                'GET',
-            ) as Task[];
-            
-            setTasks(tasks);
-        }
-
-        fetchUserInfo();
-    }, [fetchFromBackend]);
+    const { tasks } = useContext(TaskContext);
 
     return (
         <div>
             <h1>Task List</h1>
-            {tasks.map((task) => <TaskCard task={ task } key={task.taskId} />)}
+            {tasks.map((task) => <TaskCard task={ task } key={task.id} />)}
         </div>
     );
 } 

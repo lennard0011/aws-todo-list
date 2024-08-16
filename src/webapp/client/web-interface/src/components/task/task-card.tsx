@@ -1,18 +1,21 @@
-import { Task } from "../../../../../../shared/task"
+import { useContext } from "react";
+import { TaskContext } from "../../providers/task-provider";
+import { Task } from "./task";
 
 type Props = {
     task: Task;
 }
 
 export const TaskCard = (props: Props) => {
-    const { task } = props;
+    const { id, title, description, status } = props.task;
+    const { deleteTask } = useContext(TaskContext);
 
-    console.log('task', task)
     return (
         <div>
-            <h2>{task.title}</h2>
-            <p>{task.description}</p>
-            <p>{task.status}</p>
+            <h2>{title}</h2>
+            <p>{description}</p>
+            <p>{status}</p>
+            <button onClick={() => deleteTask(id)}>🗑️</button>
         </div>
     );
 }

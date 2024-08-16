@@ -4,11 +4,18 @@ import {
   QueryCommand,
   PutCommand,
   UpdateCommand,
+  DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { randomUUID } from "crypto";
-import { TaskData } from "../task/task";
+import { TaskData, TaskStatus } from "../task/task";
 
 const TASK_TABLE_NAME = process.env.TASK_TABLE_NAME!;
+
+export type CreateTaskDto = {
+  title: string;
+  description: string;
+  status: TaskStatus;
+};
 
 export class DynamoDbClient {
   private readonly client: DynamoDBDocumentClient;
@@ -20,26 +27,26 @@ export class DynamoDbClient {
     this.client = DynamoDBDocumentClient.from(client);
   }
 
-  async createTask(userId: string, task: TaskData) {
+  async createTask(userId: string, createTaskDto: CreateTaskDto) {
     console.log(`Creating task for user ${userId}`);
-    console.log(`Task: ${JSON.stringify(task)}`);
+    console.log(`Task: ${JSON.stringify(createTaskDto)}`);
 
-    const taskId = randomUUID();
+    const id = randomUUID();
 
     const command = new PutCommand({
       TableName: TASK_TABLE_NAME,
       Item: {
         userId,
-        taskId,
-        title: task.title,
-        description: task.description,
-        status: task.status,
+        taskId: id,
+        title: createTaskDto.title,
+        description: createTaskDto.description,
+        status: createTaskDto.status,
       },
     });
 
     const response = await this.client.send(command);
     console.log(response);
-    return response;
+    return id;
   }
 
   async getTasks(userId: string) {
@@ -54,7 +61,14 @@ export class DynamoDbClient {
     });
     const response = await this.client.send(command);
 
-    const tasks = response.Items as TaskData[];
+    const tasks = response.Items?.map((item) => {
+      return {
+        id: item.taskId,
+        title: item.title,
+        description: item.description,
+        status: item.status,
+      };
+    }) as TaskData[];
 
     return tasks;
   }
@@ -62,7 +76,7 @@ export class DynamoDbClient {
   async updateTask(
     userId: string,
     taskId: string,
-    taskData: Partial<TaskData>,
+    taskData: Partial<Omit<TaskData, 'id'>>,
   ) {
     console.log(`Updating task for user ${userId}`);
     console.log(`Task: ${JSON.stringify(taskData)}`);
@@ -98,5 +112,19 @@ export class DynamoDbClient {
     const response = await this.client.send(command);
     console.log(response);
     return response;
+  }
+
+  async deleteTask(userId: string, taskId: string) {
+    console.log(`Deleting task ${taskId} for user ${userId}`);
+
+    const command = new DeleteCommand({
+      TableName: TASK_TABLE_NAME,
+      Key: {
+        userId,
+        taskId,
+      },
+    });
+
+    await this.client.send(command);
   }
 }

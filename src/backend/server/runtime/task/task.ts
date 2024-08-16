@@ -5,18 +5,21 @@ export enum TaskStatus {
 }
 
 export type TaskData = {
+  id: string;
   title: string;
   description: string;
   status: TaskStatus;
 };
 
 export class Task {
+  private readonly id: string;
   private readonly title: string;
   private readonly description: string;
   private readonly status: TaskStatus;
 
   constructor(taskData: TaskData) {
-    const { title, description, status } = taskData;
+    const { id, title, description, status } = taskData;
+    this.id = id;
     this.title = title;
     this.description = description;
     this.status = status;
@@ -24,6 +27,7 @@ export class Task {
 
   toObject() {
     return structuredClone({
+      id: this.id,
       title: this.title,
       description: this.description,
       status: this.status,
