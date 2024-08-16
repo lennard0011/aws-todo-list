@@ -76,7 +76,7 @@ export class DynamoDbClient {
   async updateTask(
     userId: string,
     taskId: string,
-    taskData: Partial<Omit<TaskData, 'id'>>,
+    taskData: Partial<Omit<TaskData, "id">>,
   ) {
     console.log(`Updating task for user ${userId}`);
     console.log(`Task: ${JSON.stringify(taskData)}`);

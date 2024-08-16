@@ -11,15 +11,15 @@
     "format": "prettier --write ./**/*.ts",
     "lint": "eslint --fix --report-unused-disable-directives --max-warnings 0",
     "preall:deploy": "npm run build && npm run webapp:build",
-    "all:deploy": "cdk deploy --all --concurrency 10 --require-approval never",
+    "all:deploy": "npx cdk deploy --all --concurrency 10 --require-approval never",
     "prebackend:deploy": "npm run build",
-    "backend:deploy": "cdk deploy 'ToDoListBackend'",
+    "backend:deploy": "npx cdk deploy 'ToDoListBackend'",
     "preauthentication:deploy": "npm run build",
-    "authentication:deploy": "cdk deploy 'ToDoListAuthentication'",
+    "authentication:deploy": "npx cdk deploy 'ToDoListAuthentication'",
     "webapp:dev": "vite",
     "webapp:build": "vite build",
     "prewebapp:deploy": "npm run build && npm run webapp:build",
-    "webapp:deploy": "cdk deploy 'ToDoListWebapp'"
+    "webapp:deploy": "npx cdk deploy 'ToDoListWebapp'"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.138",

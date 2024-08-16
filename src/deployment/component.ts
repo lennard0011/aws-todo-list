@@ -3,9 +3,9 @@ import { Pipeline } from "./pipeline/infrastructure";
 import { Construct } from "constructs";
 
 type Props = {
-    env: Environment;
-    githubRepo: string;
-    githubBranch: string;
+  env: Environment;
+  githubRepo: string;
+  githubBranch: string;
 };
 
 export class Deployment extends Stack {
@@ -13,7 +13,7 @@ export class Deployment extends Stack {
 
   constructor(scope: Construct, id: string, props: Props) {
     const { env } = props;
-    super(scope, id, { env});
+    super(scope, id, { env });
 
     this.pipeline = new Pipeline(this, "Pipeline", props);
   }
