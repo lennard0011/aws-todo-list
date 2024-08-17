@@ -1,9 +1,9 @@
 # aws-todo-list
 A simple fullstack to-do list application using the AWS stack (S3, Cloudfront, Lambda, ApiGateway, DynamoDB, Cognito).
 
-The purpose of the project, a to-do list, is very simple. I picked this simple purpose as the goal of this project is to become more familiar
+The purpose of the project, a to-do list, is very simple. I picked this simple purpose as the goal of this project is to become more familiar with AWS and CDK.
 
-Note
+# Note
 
 Remember that the user themself needs to do the following things:
 
@@ -12,5 +12,5 @@ Remember that the user themself needs to do the following things:
 * Create a Secret with name `github-token` in Secrets Manager. Populate it with the Github personal access token.
 
 # TODO:
-
-* Make sure the CDK pipeline has the possibility to take on the right role and do the correct actions.
+- [x] Make sure the CDK pipeline has the possibility to take on the right role and do the correct actions.
+- [ ] Make sure CDK Pipeline actually deploys the application instead of only the pipeline Construct.
