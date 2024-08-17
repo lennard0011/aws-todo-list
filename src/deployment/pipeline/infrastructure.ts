@@ -1,7 +1,8 @@
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import {
+  CodeBuildStep,
   CodePipeline,
   CodePipelineSource,
-  ShellStep,
 } from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
 
@@ -20,9 +21,20 @@ export class Pipeline extends Construct {
 
     this.pipeline = new CodePipeline(this, "Pipeline", {
       pipelineName: "CDKPipeline",
-      synth: new ShellStep("Synth", {
+      synth: new CodeBuildStep("Synth", {
         input: CodePipelineSource.gitHub(githubRepo, githubBranch),
         commands: ["npm ci", "npm run preall:deploy", "npx cdk synth"],
+        rolePolicyStatements: [
+          new PolicyStatement({
+            actions: ['sts:AssumeRole'],
+            resources: ['*'],
+            conditions: {
+              StringEquals: {
+                'iam:ResourceTag/aws-cdk:bootstrap-role': 'lookup',
+              },
+            },
+          }),
+        ],
       }),
     });
   }
