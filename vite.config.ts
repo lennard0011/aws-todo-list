@@ -9,11 +9,11 @@ export default defineConfig({
     outDir: "../../../../build-web-interface",
     rollupOptions: {
       output: {
-          entryFileNames: 'bundle.js',
-          assetFileNames: 'style.css',
-          chunkFileNames: "chunk.js",
-          manualChunks: undefined,
-      }
-    }
+        entryFileNames: "bundle.js",
+        assetFileNames: "style.css",
+        chunkFileNames: "chunk.js",
+        manualChunks: undefined,
+      },
+    },
   },
 });

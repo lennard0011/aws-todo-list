@@ -5,13 +5,15 @@ import {
   CodePipelineSource,
 } from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
+import { Stack } from "aws-cdk-lib";
+import { ApplicationDeployment } from "./application-deployment/infrastructure";
 
 type Props = {
   githubRepo: string;
   githubBranch: string;
 };
 
-export class Pipeline extends Construct {
+export class Pipeline extends Stack {
   public readonly pipeline: CodePipeline;
 
   constructor(scope: Construct, id: string, props: Props) {
@@ -26,16 +28,19 @@ export class Pipeline extends Construct {
         commands: ["npm ci", "npm run preall:deploy", "npx cdk synth"],
         rolePolicyStatements: [
           new PolicyStatement({
-            actions: ['sts:AssumeRole'],
-            resources: ['*'],
+            actions: ["sts:AssumeRole"],
+            resources: ["*"],
             conditions: {
               StringEquals: {
-                'iam:ResourceTag/aws-cdk:bootstrap-role': 'lookup',
+                "iam:ResourceTag/aws-cdk:bootstrap-role": "lookup",
               },
             },
           }),
         ],
       }),
     });
+
+    const applicationDeployment = new ApplicationDeployment(this, "Deploy");
+    this.pipeline.addStage(applicationDeployment);
   }
 }
