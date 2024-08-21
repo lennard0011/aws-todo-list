@@ -14,14 +14,14 @@ export type Environment = {
 
 const app = new App();
 
-const env = {
-  account: process.env.CDK_DEFAULT_ACCOUNT!,
-  region: process.env.CDK_DEFAULT_REGION!,
-};
-
 export class Application extends Stack {
-  constructor(scope: Construct, id: string, props: { env: Environment }) {
-    super(scope, id, props);
+  constructor(scope: Construct, id: string) {
+    const env = {
+      account: process.env.CDK_DEFAULT_ACCOUNT!,
+      region: process.env.CDK_DEFAULT_REGION!,
+    };
+
+    super(scope, id, { env });
 
     const authenticationProps = {
       env,
@@ -60,6 +60,6 @@ export class Application extends Stack {
   }
 }
 
-new Application(app, "ToDoListApplication", { env });
+new Application(app, "ToDoListApplication");
 
 app.synth();
