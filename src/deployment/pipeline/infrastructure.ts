@@ -7,8 +7,10 @@ import {
 import { Construct } from "constructs";
 import { Stack } from "aws-cdk-lib";
 import { ApplicationDeployment } from "./application-deployment/infrastructure";
+import { Environment } from "../../app";
 
 type Props = {
+  env: Environment;
   githubRepo: string;
   githubBranch: string;
 };
@@ -17,7 +19,7 @@ export class Pipeline extends Stack {
   public readonly pipeline: CodePipeline;
 
   constructor(scope: Construct, id: string, props: Props) {
-    super(scope, id);
+    super(scope, id, props);
 
     const { githubRepo, githubBranch } = props;
 
@@ -40,7 +42,11 @@ export class Pipeline extends Stack {
       }),
     });
 
-    const applicationDeployment = new ApplicationDeployment(this, "Deploy");
+    const applicationDeployment = new ApplicationDeployment(
+      this,
+      "Deploy",
+      props,
+    );
     this.pipeline.addStage(applicationDeployment);
   }
 }

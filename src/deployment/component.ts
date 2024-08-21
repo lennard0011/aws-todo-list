@@ -1,6 +1,7 @@
-import { Environment, Stack } from "aws-cdk-lib";
+import { Stack } from "aws-cdk-lib";
 import { Pipeline } from "./pipeline/infrastructure";
 import { Construct } from "constructs";
+import { Environment } from "../app";
 
 type Props = {
   env: Environment;
@@ -12,8 +13,7 @@ export class Deployment extends Stack {
   readonly pipeline: Pipeline;
 
   constructor(scope: Construct, id: string, props: Props) {
-    const { env } = props;
-    super(scope, id, { env });
+    super(scope, id, props);
 
     this.pipeline = new Pipeline(this, "Pipeline", props);
   }
