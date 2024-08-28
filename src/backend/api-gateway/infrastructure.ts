@@ -3,7 +3,7 @@ import {
   Cors,
   LambdaRestApi,
 } from "aws-cdk-lib/aws-apigateway";
-import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
+import { Certificate, ValidationMethod } from "aws-cdk-lib/aws-certificatemanager";
 import { UserPool } from "aws-cdk-lib/aws-cognito";
 import { Function } from "aws-cdk-lib/aws-lambda";
 import { RecordTarget } from "aws-cdk-lib/aws-route53";
@@ -27,6 +27,10 @@ export class ApiGateway extends Construct {
 
     const certificate = new Certificate(this, "ApiGateWayCertificate", {
       domainName,
+      validation: {
+        method: ValidationMethod.DNS,
+        props: {}
+      }
     });
 
     const authorizer = new CognitoUserPoolsAuthorizer(
