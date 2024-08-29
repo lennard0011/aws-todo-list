@@ -10,7 +10,7 @@ Remember that the user themself needs to do the following things:
 * Get the domain from route 53.
 * Create a certificate for the domain in the Virginia (us-east-1) region. Put the ARN of the certificate in the cdk.context.json
 * Create a Secret with name `github-token` in Secrets Manager. Populate it with the Github personal access token.
-* Add the custom domain to the API gateway and add the A Name record in Route53. Otherwise, the validation gets stuck by ACM when trying to get a certificate.
+* Go into ACM and add the required entries to Route53 for the certificate.
 
 # TODO:
 - [x] Make sure the CDK pipeline has the possibility to take on the right role and do the correct actions.
