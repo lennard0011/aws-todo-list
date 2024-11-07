@@ -22,6 +22,8 @@
     "webapp:deploy": "npx cdk deploy 'ToDoListWebapp'"
   },
   "devDependencies": {
+    "@tanstack/router-devtools": "^1.51.5",
+    "@tanstack/router-plugin": "^1.51.0",
     "@types/aws-lambda": "^8.10.138",
     "@types/jest": "^29.5.12",
     "@types/node": "20.12.7",
@@ -40,6 +42,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.596.0",
     "@aws-sdk/lib-dynamodb": "^3.596.0",
+    "@tanstack/react-router": "^1.51.5",
     "aws-amplify": "^6.3.0",
     "aws-cdk-lib": "^2.140.0",
     "constructs": "^10.0.0",
