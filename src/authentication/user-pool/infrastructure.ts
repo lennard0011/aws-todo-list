@@ -86,7 +86,7 @@ export class AuthRepository extends Construct {
           OAuthScope.PHONE,
           OAuthScope.COGNITO_ADMIN,
         ],
-        callbackUrls: [`https://${rootDomain}`, "http://localhost:5173/"],
+        callbackUrls: [`https://${rootDomain}/to-do-list`, "http://localhost:5173/to-do-list"],
       },
       generateSecret: false,
     });
