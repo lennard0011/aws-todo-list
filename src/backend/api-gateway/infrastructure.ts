@@ -1,71 +1,71 @@
 import {
   CognitoUserPoolsAuthorizer,
   Cors,
-  LambdaRestApi,
-} from "aws-cdk-lib/aws-apigateway";
+  LambdaRestApi
+} from 'aws-cdk-lib/aws-apigateway'
 import {
   Certificate,
-  ValidationMethod,
-} from "aws-cdk-lib/aws-certificatemanager";
-import { UserPool } from "aws-cdk-lib/aws-cognito";
-import { Function } from "aws-cdk-lib/aws-lambda";
-import { RecordTarget } from "aws-cdk-lib/aws-route53";
-import * as routeTargets from "aws-cdk-lib/aws-route53-targets";
-import { Construct } from "constructs";
-import { addARecord } from "../../utils/addARecord";
+  ValidationMethod
+} from 'aws-cdk-lib/aws-certificatemanager'
+import { UserPool } from 'aws-cdk-lib/aws-cognito'
+import { Function } from 'aws-cdk-lib/aws-lambda'
+import { RecordTarget } from 'aws-cdk-lib/aws-route53'
+import * as routeTargets from 'aws-cdk-lib/aws-route53-targets'
+import { Construct } from 'constructs'
+import { addARecord } from '../../utils/addARecord'
 
 type Props = {
   // eslint-disable-next-line @typescript-eslint/ban-types
-  handler: Function;
-  rootDomain: string;
-  domainName: string;
-  userPool: UserPool;
-};
+  handler: Function
+  rootDomain: string
+  domainName: string
+  userPool: UserPool
+}
 
 export class ApiGateway extends Construct {
   constructor(scope: Construct, id: string, props: Props) {
-    super(scope, id);
+    super(scope, id)
 
-    const { handler, rootDomain, domainName, userPool } = props;
+    const { handler, rootDomain, domainName, userPool } = props
 
-    const certificate = new Certificate(this, "ApiGateWayCertificate", {
+    const certificate = new Certificate(this, 'ApiGateWayCertificate', {
       domainName,
       validation: {
         method: ValidationMethod.DNS,
-        props: {},
-      },
-    });
+        props: {}
+      }
+    })
 
     const authorizer = new CognitoUserPoolsAuthorizer(
       this,
-      "MyCognitoAuthorizer",
+      'MyCognitoAuthorizer',
       {
-        cognitoUserPools: [userPool],
-      },
-    );
+        cognitoUserPools: [userPool]
+      }
+    )
 
-    const lambdaRestApi = new LambdaRestApi(this, "lambdaRestApi", {
+    const lambdaRestApi = new LambdaRestApi(this, 'lambdaRestApi', {
       handler,
       proxy: true,
       domainName: {
         domainName,
-        certificate,
+        certificate
       },
       defaultMethodOptions: {
-        authorizer,
+        authorizer
       },
       defaultCorsPreflightOptions: {
-        allowOrigins: ["http://localhost:5173", `https://${rootDomain}`],
-        allowHeaders: Cors.DEFAULT_HEADERS,
-      },
-    });
+        allowOrigins: ['http://localhost:5173', `https://${rootDomain}`],
+        allowHeaders: Cors.DEFAULT_HEADERS
+      }
+    })
 
     addARecord(
       this,
-      "apiAliasRecord",
+      'apiAliasRecord',
       rootDomain,
       domainName,
-      RecordTarget.fromAlias(new routeTargets.ApiGateway(lambdaRestApi)),
-    );
+      RecordTarget.fromAlias(new routeTargets.ApiGateway(lambdaRestApi))
+    )
   }
 }

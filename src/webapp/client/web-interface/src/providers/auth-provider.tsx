@@ -49,7 +49,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         async function fetchToken(code: string) {            
             const grantType = 'authorization_code';
 
-            const body = `grant_type=${grantType}&client_id=${USER_POOL_CLIENT_ID}&redirect_uri=${WEBAPP_URL}&code=${code}`
+            const body = `grant_type=${grantType}&client_id=${USER_POOL_CLIENT_ID}&redirect_uri=${WEBAPP_URL}/to-do-list&code=${code}`
             const response = await fetch(`https://auth.lennardvanderplas.com/oauth2/token/`, {
                 method: 'POST',
                 headers: {
@@ -127,7 +127,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     };
 
     const logIn = () => {
-        const loginUrl = `${AUTH_URL}/login?client_id=${USER_POOL_CLIENT_ID}&response_type=code&scope=email+openid+profile&redirect_uri=${WEBAPP_URL}`;
+        const loginUrl = `${AUTH_URL}/login?client_id=${USER_POOL_CLIENT_ID}&response_type=code&scope=email+openid+profile&redirect_uri=${WEBAPP_URL}/to-do-list`;
         window.location.href = loginUrl;
     };
 

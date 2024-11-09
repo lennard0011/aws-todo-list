@@ -1,5 +1,5 @@
-import { Duration } from "aws-cdk-lib";
-import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
+import { Duration } from 'aws-cdk-lib'
+import { Certificate } from 'aws-cdk-lib/aws-certificatemanager'
 import {
   AllowedMethods,
   CachedMethods,
@@ -7,89 +7,89 @@ import {
   OriginAccessIdentity,
   PriceClass,
   SecurityPolicyProtocol,
-  ViewerProtocolPolicy,
-} from "aws-cdk-lib/aws-cloudfront";
-import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins";
-import { CanonicalUserPrincipal, PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { ARecord, HostedZone, RecordTarget } from "aws-cdk-lib/aws-route53";
-import { CloudFrontTarget } from "aws-cdk-lib/aws-route53-targets";
-import { Construct } from "constructs";
-import { Client } from "../client/infrastructure";
+  ViewerProtocolPolicy
+} from 'aws-cdk-lib/aws-cloudfront'
+import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins'
+import { CanonicalUserPrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam'
+import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
+import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets'
+import { Construct } from 'constructs'
+import { Client } from '../client/infrastructure'
 
 type Props = {
-  client: Client;
-  domainName: string;
-  domainCertificateArn: string;
-};
+  client: Client
+  domainName: string
+  domainCertificateArn: string
+}
 
 export class ContentDeliveryNetwork extends Construct {
   constructor(scope: Construct, id: string, props: Props) {
-    super(scope, id);
+    super(scope, id)
 
-    const { client, domainName, domainCertificateArn } = props;
-    const { sourceBucket } = client;
+    const { client, domainName, domainCertificateArn } = props
+    const { sourceBucket } = client
 
-    const zone = HostedZone.fromLookup(this, "Zone", { domainName });
-    const siteDomain = domainName;
-    const cloudfrontOAI = new OriginAccessIdentity(this, "cloudfront-OAI", {
-      comment: `OAI for ${id}`,
-    });
+    const zone = HostedZone.fromLookup(this, 'Zone', { domainName })
+    const siteDomain = domainName
+    const cloudfrontOAI = new OriginAccessIdentity(this, 'cloudfront-OAI', {
+      comment: `OAI for ${id}`
+    })
 
     const getS3ObjectPolicy = new PolicyStatement({
-      actions: ["s3:GetObject"],
-      resources: [sourceBucket.arnForObjects("*")],
+      actions: ['s3:GetObject'],
+      resources: [sourceBucket.arnForObjects('*')],
       principals: [
         new CanonicalUserPrincipal(
-          cloudfrontOAI.cloudFrontOriginAccessIdentityS3CanonicalUserId,
-        ),
-      ],
-    });
+          cloudfrontOAI.cloudFrontOriginAccessIdentityS3CanonicalUserId
+        )
+      ]
+    })
 
-    sourceBucket.addToResourcePolicy(getS3ObjectPolicy);
+    sourceBucket.addToResourcePolicy(getS3ObjectPolicy)
 
     const certificate = Certificate.fromCertificateArn(
       this,
-      "Certificate",
-      domainCertificateArn,
-    );
+      'Certificate',
+      domainCertificateArn
+    )
 
-    const distribution = new Distribution(this, "CDNWebDistribution", {
-      defaultRootObject: "index.html",
+    const distribution = new Distribution(this, 'CDNWebDistribution', {
+      defaultRootObject: 'index.html',
       domainNames: [siteDomain],
       certificate,
       minimumProtocolVersion: SecurityPolicyProtocol.TLS_V1_2_2021,
       errorResponses: [
         {
           httpStatus: 403,
-          responseHttpStatus: 403,
-          responsePagePath: "/error.html",
           ttl: Duration.minutes(30),
+          responseHttpStatus: 200,
+          responsePagePath: '/index.html'
         },
         {
           httpStatus: 404,
-          responseHttpStatus: 404,
-          responsePagePath: "/error.html",
           ttl: Duration.minutes(30),
-        },
+          responseHttpStatus: 200,
+          responsePagePath: '/index.html'
+        }
       ],
       defaultBehavior: {
         origin: new S3Origin(sourceBucket, {
-          originAccessIdentity: cloudfrontOAI,
+          originAccessIdentity: cloudfrontOAI
         }),
         allowedMethods: AllowedMethods.ALLOW_GET_HEAD,
         compress: true,
         cachedMethods: CachedMethods.CACHE_GET_HEAD,
-        viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS
       },
-      priceClass: PriceClass.PRICE_CLASS_100,
-    });
+      priceClass: PriceClass.PRICE_CLASS_100
+    })
 
-    new ARecord(this, "SiteAliasRecord", {
+    new ARecord(this, 'SiteAliasRecord', {
       recordName: siteDomain,
       target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
-      zone,
-    });
+      zone
+    })
 
-    client.deployContent(distribution);
+    client.deployContent(distribution)
   }
 }
