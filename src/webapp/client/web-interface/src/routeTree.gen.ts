@@ -12,8 +12,9 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as ToDoListImport } from './routes/to-do-list'
-import { Route as BlogImport } from './routes/blog'
 import { Route as IndexImport } from './routes/index'
+import { Route as BlogIndexImport } from './routes/blog/index'
+import { Route as BlogPosts0001BuildingAwsCloudResumeChallengeImport } from './routes/blog/posts/0001-building-aws-cloud-resume-challenge'
 
 // Create/Update Routes
 
@@ -22,15 +23,21 @@ const ToDoListRoute = ToDoListImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const BlogRoute = BlogImport.update({
-  path: '/blog',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const BlogIndexRoute = BlogIndexImport.update({
+  path: '/blog/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BlogPosts0001BuildingAwsCloudResumeChallengeRoute =
+  BlogPosts0001BuildingAwsCloudResumeChallengeImport.update({
+    path: '/blog/posts/0001-building-aws-cloud-resume-challenge',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -43,18 +50,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogImport
-      parentRoute: typeof rootRoute
-    }
     '/to-do-list': {
       id: '/to-do-list'
       path: '/to-do-list'
       fullPath: '/to-do-list'
       preLoaderRoute: typeof ToDoListImport
+      parentRoute: typeof rootRoute
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/blog/posts/0001-building-aws-cloud-resume-challenge': {
+      id: '/blog/posts/0001-building-aws-cloud-resume-challenge'
+      path: '/blog/posts/0001-building-aws-cloud-resume-challenge'
+      fullPath: '/blog/posts/0001-building-aws-cloud-resume-challenge'
+      preLoaderRoute: typeof BlogPosts0001BuildingAwsCloudResumeChallengeImport
       parentRoute: typeof rootRoute
     }
   }
@@ -64,8 +78,9 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   IndexRoute,
-  BlogRoute,
   ToDoListRoute,
+  BlogIndexRoute,
+  BlogPosts0001BuildingAwsCloudResumeChallengeRoute,
 })
 
 /* prettier-ignore-end */
@@ -77,18 +92,22 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/blog",
-        "/to-do-list"
+        "/to-do-list",
+        "/blog/",
+        "/blog/posts/0001-building-aws-cloud-resume-challenge"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/blog": {
-      "filePath": "blog.tsx"
-    },
     "/to-do-list": {
       "filePath": "to-do-list.tsx"
+    },
+    "/blog/": {
+      "filePath": "blog/index.tsx"
+    },
+    "/blog/posts/0001-building-aws-cloud-resume-challenge": {
+      "filePath": "blog/posts/0001-building-aws-cloud-resume-challenge.tsx"
     }
   }
 }
