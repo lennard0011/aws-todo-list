@@ -18,5 +18,6 @@ Remember that the user themself needs to do the following things:
 - [x] Make sure CDK Pipeline actually deploys the application instead of only the pipeline Construct.
 - [x] Fix the env variables for the webapp build.
 - [x] Implement react router.
-- [ ] Add blog.
+- [x] Add blog.
+- [x] Look into uses of matcha [https://matcha.mizu.sh/#article]
 - [ ] Configure automated fix of linting and formatting.

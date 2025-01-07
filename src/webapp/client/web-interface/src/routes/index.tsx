@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
   component: Index
@@ -12,11 +12,9 @@ function Index() {
         Welcome to my website. The code for this is on my repository in Github.
       </p>
       <p>
-        I made this to learn how to create a full stack application using basic
-        AWS services.
+        Take a look at the navigation tab to get to my blog or to-do-list
+        project.
       </p>
-      <Link to='/to-do-list'>To do list</Link> <br></br>
-      <Link to='/blog'>Blog</Link>
     </>
   )
 }
