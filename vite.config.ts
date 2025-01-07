@@ -1,19 +1,20 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite'
+import viteReact from '@vitejs/plugin-react'
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  root: "src/webapp/client/web-interface",
+  plugins: [TanStackRouterVite(), viteReact()],
+  root: 'src/webapp/client/web-interface',
   build: {
-    outDir: "../../../../build-web-interface",
+    outDir: '../../../../build-web-interface',
     rollupOptions: {
       output: {
-        entryFileNames: "bundle.js",
-        assetFileNames: "style.css",
-        chunkFileNames: "chunk.js",
-        manualChunks: undefined,
-      },
-    },
-  },
-});
+        entryFileNames: 'bundle.js',
+        assetFileNames: 'style.css',
+        chunkFileNames: 'chunk.js',
+        manualChunks: undefined
+      }
+    }
+  }
+})

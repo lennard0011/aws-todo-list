@@ -1,37 +1,37 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import {
   DynamoDBDocumentClient,
   QueryCommand,
   PutCommand,
   UpdateCommand,
-  DeleteCommand,
-} from "@aws-sdk/lib-dynamodb";
-import { randomUUID } from "crypto";
-import { TaskData, TaskStatus } from "../task/task";
+  DeleteCommand
+} from '@aws-sdk/lib-dynamodb'
+import { randomUUID } from 'crypto'
+import { TaskData, TaskStatus } from '../task/task'
 
-const TASK_TABLE_NAME = process.env.TASK_TABLE_NAME!;
+const TASK_TABLE_NAME = process.env.TASK_TABLE_NAME!
 
 export type CreateTaskDto = {
-  title: string;
-  description: string;
-  status: TaskStatus;
-};
+  title: string
+  description: string
+  status: TaskStatus
+}
 
 export class DynamoDbClient {
-  private readonly client: DynamoDBDocumentClient;
+  private readonly client: DynamoDBDocumentClient
 
   constructor() {
     const client = new DynamoDBClient({
-      region: process.env.AWS_REGION,
-    });
-    this.client = DynamoDBDocumentClient.from(client);
+      region: process.env.AWS_REGION
+    })
+    this.client = DynamoDBDocumentClient.from(client)
   }
 
   async createTask(userId: string, createTaskDto: CreateTaskDto) {
-    console.log(`Creating task for user ${userId}`);
-    console.log(`Task: ${JSON.stringify(createTaskDto)}`);
+    console.log(`Creating task for user ${userId}`)
+    console.log(`Task: ${JSON.stringify(createTaskDto)}`)
 
-    const id = randomUUID();
+    const id = randomUUID()
 
     const command = new PutCommand({
       TableName: TASK_TABLE_NAME,
@@ -40,91 +40,91 @@ export class DynamoDbClient {
         taskId: id,
         title: createTaskDto.title,
         description: createTaskDto.description,
-        status: createTaskDto.status,
-      },
-    });
+        status: createTaskDto.status
+      }
+    })
 
-    const response = await this.client.send(command);
-    console.log(response);
-    return id;
+    const response = await this.client.send(command)
+    console.log(response)
+    return id
   }
 
   async getTasks(userId: string) {
-    console.log(`Getting tasks for user ${userId}`);
+    console.log(`Getting tasks for user ${userId}`)
 
     const command = new QueryCommand({
       TableName: TASK_TABLE_NAME,
-      KeyConditionExpression: "userId = :userId",
+      KeyConditionExpression: 'userId = :userId',
       ExpressionAttributeValues: {
-        ":userId": userId,
-      },
-    });
-    const response = await this.client.send(command);
+        ':userId': userId
+      }
+    })
+    const response = await this.client.send(command)
 
     const tasks = response.Items?.map((item) => {
       return {
         id: item.taskId,
         title: item.title,
         description: item.description,
-        status: item.status,
-      };
-    }) as TaskData[];
+        status: item.status
+      }
+    }) as TaskData[]
 
-    return tasks;
+    return tasks
   }
 
   async updateTask(
     userId: string,
     taskId: string,
-    taskData: Partial<Omit<TaskData, "id">>,
+    taskData: Partial<Omit<TaskData, 'id'>>
   ) {
-    console.log(`Updating task for user ${userId}`);
-    console.log(`Task: ${JSON.stringify(taskData)}`);
+    console.log(`Updating task for user ${userId}`)
+    console.log(`Task: ${JSON.stringify(taskData)}`)
 
-    let updateExpression = "";
-    const expressionAttributeValues: Record<string, unknown> = {};
+    let updateExpression = ''
+    const expressionAttributeValues: Record<string, unknown> = {}
 
     Object.entries(taskData).forEach(([attributeName, value], index) => {
       if (index === 0) {
-        updateExpression = "SET ";
+        updateExpression = 'SET '
       }
 
-      const nameSpace = `:${attributeName}`;
-      updateExpression += `${attributeName} = ${nameSpace}`;
+      const nameSpace = `:${attributeName}`
+      updateExpression += `${attributeName} = ${nameSpace}`
 
       if (index < Object.keys(taskData).length - 1) {
-        updateExpression += ", ";
+        updateExpression += ', '
       }
 
-      expressionAttributeValues[nameSpace] = value;
-    });
+      expressionAttributeValues[nameSpace] = value
+    })
 
     const command = new UpdateCommand({
       TableName: TASK_TABLE_NAME,
       Key: {
         userId,
-        taskId,
+        taskId
       },
       UpdateExpression: updateExpression,
-      ExpressionAttributeValues: expressionAttributeValues,
-    });
+      ExpressionAttributeValues: expressionAttributeValues
+    })
 
-    const response = await this.client.send(command);
-    console.log(response);
-    return response;
+    const response = await this.client.send(command)
+    console.log(response)
+    return response
   }
 
   async deleteTask(userId: string, taskId: string) {
-    console.log(`Deleting task ${taskId} for user ${userId}`);
+    console.log(`Deleting task ${taskId} for user ${userId}`)
 
     const command = new DeleteCommand({
       TableName: TASK_TABLE_NAME,
       Key: {
         userId,
-        taskId,
-      },
-    });
+        taskId
+      }
+    })
 
-    await this.client.send(command);
+    await this.client.send(command)
   }
 }

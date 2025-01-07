@@ -1,90 +1,93 @@
-import { DynamoDbClient } from "./dynamo-db/dynamo-db-client";
-import { CreateTaskAction } from "./task/create-task-action";
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import { GetTasksAction } from "./task/get-task-action";
-import { DeleteTaskAction } from "./task/delete-task-action";
+import { DynamoDbClient } from './dynamo-db/dynamo-db-client'
+import { CreateTaskAction } from './task/create-task-action'
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
+import { GetTasksAction } from './task/get-task-action'
+import { DeleteTaskAction } from './task/delete-task-action'
 
 const notAuthorizedResponse = {
   statusCode: 401,
   headers: {
-    "Access-Control-Allow-Origin": "*",
+    'Access-Control-Allow-Origin': '*'
   },
-  body: "Not Authorized",
-};
+  body: 'Not Authorized'
+}
 
 const badRequestResponse = {
   statusCode: 400,
   headers: {
-    "Access-Control-Allow-Origin": "*",
+    'Access-Control-Allow-Origin': '*'
   },
-  body: "Bad Request",
-};
+  body: 'Bad Request'
+}
 
 const notFoundResponse = {
   statusCode: 404,
   headers: {
-    "Access-Control-Allow-Origin": "*",
+    'Access-Control-Allow-Origin': '*'
   },
-  body: "Not Found",
-};
+  body: 'Not Found'
+}
 
 export const handler = async (
-  event: APIGatewayProxyEvent,
+  event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  const userId = event.requestContext?.authorizer?.claims.sub;
+  const userId = event.requestContext?.authorizer?.claims.sub
 
   if (!userId) {
-    return notAuthorizedResponse;
+    return notAuthorizedResponse
   }
 
-  const path = event.path;
-  const method = event.httpMethod;
-  const body = event.body ? (JSON.parse(event.body) as unknown) : undefined;
+  const path = event.path
+  const method = event.httpMethod
+  const body = event.body ? (JSON.parse(event.body) as unknown) : undefined
 
-  const dynamoDbClient = new DynamoDbClient();
+  const dynamoDbClient = new DynamoDbClient()
 
   switch (true) {
-    case path.startsWith("/task"):
+    case path.startsWith('/task'):
       switch (method) {
-        case "POST": {
+        case 'POST': {
           if (!body) {
-            return badRequestResponse;
+            return badRequestResponse
           }
-          if (typeof body !== "object") {
-            return badRequestResponse;
+          if (typeof body !== 'object') {
+            return badRequestResponse
           }
-          if (!("title" in body) || typeof body.title !== "string") {
-            return badRequestResponse;
+          if (!('title' in body) || typeof body.title !== 'string') {
+            return badRequestResponse
           }
           if (
-            !("description" in body) ||
-            typeof body.description !== "string"
+            !('description' in body) ||
+            typeof body.description !== 'string'
           ) {
-            return badRequestResponse;
+            return badRequestResponse
           }
 
-          const { title, description } = body;
+          const { title, description } = body
 
-          const createTaskAction = new CreateTaskAction(dynamoDbClient);
-          return await createTaskAction.handle(userId, { title, description });
+          const createTaskAction = new CreateTaskAction(dynamoDbClient)
+          return await createTaskAction.handle(userId, {
+            title,
+            description
+          })
         }
-        case "GET": {
-          const getTasksAction = new GetTasksAction(dynamoDbClient);
-          return getTasksAction.handle(userId);
+        case 'GET': {
+          const getTasksAction = new GetTasksAction(dynamoDbClient)
+          return getTasksAction.handle(userId)
         }
-        case "DELETE": {
-          const splitPath = path.split("/");
+        case 'DELETE': {
+          const splitPath = path.split('/')
           if (splitPath.length !== 3) {
-            return notFoundResponse;
+            return notFoundResponse
           }
-          const id = splitPath[2];
-          const deleteTaskAction = new DeleteTaskAction(dynamoDbClient);
-          return deleteTaskAction.handle(userId, id);
+          const id = splitPath[2]
+          const deleteTaskAction = new DeleteTaskAction(dynamoDbClient)
+          return deleteTaskAction.handle(userId, id)
         }
         default:
-          return notFoundResponse;
+          return notFoundResponse
       }
   }
 
-  return notFoundResponse;
-};
+  return notFoundResponse
+}

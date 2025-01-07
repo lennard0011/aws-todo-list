@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router';
 import { FC, ReactNode, createContext, useEffect, useState } from 'react';
 
 type Token = {
@@ -28,6 +29,8 @@ const USER_POOL_CLIENT_ID = import.meta.env['VITE_USER_POOL_CLIENT_ID'];
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [token, setToken] = useState(undefined as Token | undefined);
+    const navigate = useNavigate();
+
 
     function getTokenFromCookie() {
         const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1");
@@ -45,9 +48,8 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     useEffect(() => {
         async function fetchToken(code: string) {            
             const grantType = 'authorization_code';
-            const clientId = '2r1po1ganeb8fctkubs6lch5ke';
 
-            const body = `grant_type=${grantType}&client_id=${clientId}&redirect_uri=${WEBAPP_URL}&code=${code}`
+            const body = `grant_type=${grantType}&client_id=${USER_POOL_CLIENT_ID}&redirect_uri=${WEBAPP_URL}/to-do-list&code=${code}`
             const response = await fetch(`https://auth.lennardvanderplas.com/oauth2/token/`, {
                 method: 'POST',
                 headers: {
@@ -88,11 +90,10 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
         if (code) {
             fetchToken(code);
-            
-            // remove code from url
-            window.history.replaceState({}, document.title, '/');
+            console.log('hello!!!');
+            navigate({ to: "/to-do-list", params: ""})
         }
-    }, [token]);
+    }, [navigate, token]);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const fetchFromBackend = async (url: string, method: string, body?: Record<string, any>) => {
@@ -126,7 +127,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     };
 
     const logIn = () => {
-        const loginUrl = `${AUTH_URL}/login?client_id=${USER_POOL_CLIENT_ID}&response_type=code&scope=email+openid+profile&redirect_uri=${WEBAPP_URL}`;
+        const loginUrl = `${AUTH_URL}/login?client_id=${USER_POOL_CLIENT_ID}&response_type=code&scope=email+openid+profile&redirect_uri=${WEBAPP_URL}/to-do-list`;
         window.location.href = loginUrl;
     };
 

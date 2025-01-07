@@ -1,28 +1,28 @@
 export enum TaskStatus {
-  OPEN = "OPEN",
-  IN_PROGRESS = "IN_PROGRESS",
-  DONE = "DONE",
+  OPEN = 'OPEN',
+  IN_PROGRESS = 'IN_PROGRESS',
+  DONE = 'DONE'
 }
 
 export type TaskData = {
-  id: string;
-  title: string;
-  description: string;
-  status: TaskStatus;
-};
+  id: string
+  title: string
+  description: string
+  status: TaskStatus
+}
 
 export class Task {
-  private readonly id: string;
-  private readonly title: string;
-  private readonly description: string;
-  private readonly status: TaskStatus;
+  private readonly id: string
+  private readonly title: string
+  private readonly description: string
+  private readonly status: TaskStatus
 
   constructor(taskData: TaskData) {
-    const { id, title, description, status } = taskData;
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.status = status;
+    const { id, title, description, status } = taskData
+    this.id = id
+    this.title = title
+    this.description = description
+    this.status = status
   }
 
   toObject() {
@@ -30,7 +30,7 @@ export class Task {
       id: this.id,
       title: this.title,
       description: this.description,
-      status: this.status,
-    });
+      status: this.status
+    })
   }
 }
