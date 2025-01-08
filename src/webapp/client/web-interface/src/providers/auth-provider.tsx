@@ -12,7 +12,9 @@ type AuthContextProps = {
   fetchFromBackend: (
     url: string,
     method: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: Record<string, any>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ) => Promise<any>
   isAuthenticated: boolean
   logIn: () => void
@@ -107,6 +109,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const fetchFromBackend = async (
     url: string,
     method: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: Record<string, any>
   ) => {
     const response = await fetch(`${BACKEND_URL}/${url}`, {
@@ -127,13 +130,6 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       setToken(undefined)
       return
     }
-
-    // if (!response.ok) {
-    //     console.error('Failed to fetch from backend');
-    //     deleteTokenFromCookie();
-    //     setToken(undefined);
-    //     return;
-    // }
 
     return await response.json()
   }
