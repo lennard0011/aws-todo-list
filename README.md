@@ -21,7 +21,7 @@ Remember that the user themself needs to do the following things:
 - [x] Add blog.
 - [x] Look into uses of matcha [https://matcha.mizu.sh/#article]
 - [x] Configure automated fix of linting and formatting.
-- [ ] Add selected navigation.
+- [x] Add selected navigation.
 - [ ] Protect Github branch creation.
 - [ ] Add tests to check if the application is working.
 - [ ] Add tests to check if the formatting and linting is correct.
