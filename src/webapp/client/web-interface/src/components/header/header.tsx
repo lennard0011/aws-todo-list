@@ -1,23 +1,25 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useLocation } from '@tanstack/react-router'
 
 export const Header = () => {
+  const pathname = useLocation().pathname
+
   return (
     <header>
       <menu>
         <li>
           Navigate to
           <menu>
-            <li>
+            <li className={pathname == '/' ? 'selected' : ''}>
               <Link to='/' title='Home'>
                 Home
               </Link>
             </li>
-            <li>
+            <li className={pathname == '/to-do-list' ? 'selected' : ''}>
               <Link to='/to-do-list' title='To do list'>
                 To do list
               </Link>
             </li>
-            <li>
+            <li className={pathname == '/blog' ? 'selected' : ''}>
               <Link to='/blog' title='Blog'>
                 Blog
               </Link>
@@ -28,10 +30,22 @@ export const Header = () => {
           Socials
           <menu>
             <li title='Github'>
-              <a href='https://github.com/lennard0011'>🐙</a>
+              <a
+                href='https://github.com/lennard0011'
+                target='_blank'
+                rel='noreferrer'
+              >
+                🐙
+              </a>
             </li>
             <li title='Linkedin'>
-              <a href='https://www.linkedin.com/in/lennardvanderplas/'>🇱</a>
+              <a
+                href='https://www.linkedin.com/in/lennardvanderplas/'
+                target='_blank'
+                rel='noreferrer'
+              >
+                🇱
+              </a>
             </li>
           </menu>
         </li>

@@ -7,7 +7,7 @@ export const Route = createFileRoute('/')({
 function Index() {
   return (
     <>
-      <h1> Hi, I&apos;m Lennard van der Plas.</h1>
+      <p> Hi, I&apos;m Lennard van der Plas.</p>
       <p>
         Welcome to my website. The code for this is on my repository in Github.
       </p>

@@ -13,11 +13,19 @@ Remember that the user themself needs to do the following things:
 * Now you can deploy the pipeline to AWS with `npm run all:deploy`. This will build the assets and deploy the stack to AWS.
 * Go into ACM and add the required entries to Route53 for the certificate.
 
-# TODO:
+# TODO
 - [x] Make sure the CDK pipeline has the possibility to take on the right role and do the correct actions.
 - [x] Make sure CDK Pipeline actually deploys the application instead of only the pipeline Construct.
 - [x] Fix the env variables for the webapp build.
 - [x] Implement react router.
 - [x] Add blog.
 - [x] Look into uses of matcha [https://matcha.mizu.sh/#article]
-- [ ] Configure automated fix of linting and formatting.
+- [x] Configure automated fix of linting and formatting.
+- [x] Add selected navigation.
+- [ ] Protect Github branch creation.
+- [ ] Add tests to check if the application is working.
+- [ ] Add tests to check if the formatting and linting is correct.
+- [ ] Add blog post about effort.
+
+# Notes
+* Currently the CDK pipeline is turned off to reduce costs. Deploying is being done locally.
