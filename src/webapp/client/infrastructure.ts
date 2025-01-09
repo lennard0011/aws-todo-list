@@ -1,5 +1,5 @@
 import { RemovalPolicy } from 'aws-cdk-lib'
-import { Distribution } from 'aws-cdk-lib/aws-cloudfront'
+import type { Distribution } from 'aws-cdk-lib/aws-cloudfront'
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3'
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment'
 import { Construct } from 'constructs'

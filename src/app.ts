@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import { GITHUB_REPO } from './constants'
 import { App } from 'aws-cdk-lib'
+
+import { GITHUB_REPO } from './constants'
 import { Deployment } from './deployment/component'
 
-export type Environment = {
+export interface Environment {
   account: string
   region: string
 }

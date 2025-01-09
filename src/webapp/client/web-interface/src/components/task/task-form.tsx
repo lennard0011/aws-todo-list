@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+
 import { TaskContext } from '../../providers/task-provider'
 
 export const TaskForm = () => {
@@ -8,7 +9,7 @@ export const TaskForm = () => {
   const [description, setDescription] = useState('')
 
   const submitTask = () => {
-    createTask({ title, description })
+    void createTask({ title, description })
     setTitle('')
     setDescription('')
   }
@@ -20,14 +21,20 @@ export const TaskForm = () => {
       <input
         type='text'
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e) => {
+          setTitle(e.target.value)
+        }}
       />
       <label>Description</label>
       <textarea
         value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        onChange={(e) => {
+          setDescription(e.target.value)
+        }}
       />
-      <button onClick={submitTask}>Submit Task</button>
+      <button type='button' onClick={submitTask}>
+        Submit Task
+      </button>
     </form>
   )
 }

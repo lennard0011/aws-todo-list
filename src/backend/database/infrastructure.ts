@@ -2,7 +2,7 @@ import { RemovalPolicy } from 'aws-cdk-lib'
 import { AttributeType, Billing, TableV2 } from 'aws-cdk-lib/aws-dynamodb'
 import { Construct } from 'constructs'
 
-type Props = {
+interface Props {
   tableName: string
 }
 

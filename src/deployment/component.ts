@@ -1,9 +1,10 @@
 import { Stack } from 'aws-cdk-lib'
-import { Pipeline } from './pipeline/infrastructure'
-import { Construct } from 'constructs'
-import { Environment } from '../app'
+import type { Construct } from 'constructs'
 
-type Props = {
+import type { Environment } from '../app'
+import { Pipeline } from './pipeline/infrastructure'
+
+interface Props {
   env: Environment
   githubRepo: string
   githubBranch: string

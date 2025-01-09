@@ -1,5 +1,6 @@
-import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
-import { Construct } from 'constructs'
+import type { RecordTarget } from 'aws-cdk-lib/aws-route53'
+import { ARecord, HostedZone } from 'aws-cdk-lib/aws-route53'
+import type { Construct } from 'constructs'
 
 export function addARecord(
   scope: Construct,

@@ -1,4 +1,4 @@
-import { Article } from './../article.type'
+import type { Article } from './../article.type'
 
 export const Blog: () => Article = () => {
   const url = '/blog/posts/0001-building-aws-cloud-resume-challenge'

@@ -1,23 +1,36 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
+import eslint from '@eslint/js';
+import prettierPlugin from 'eslint-config-prettier';
+import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort';
+import tsDocPlugin from 'eslint-plugin-tsdoc';
+import tseslint from 'typescript-eslint';
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  {files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"]},
-  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
+export default tseslint.config(
+  eslint.configs.recommended,
+  ...tseslint.configs.strictTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
   {
-    rules: {
-      "react/react-in-jsx-scope": "off"
+    extends: [prettierPlugin],
+    ignores: ['coverage/**/*', 'dist/**/*'],
+
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
-    settings: {
-      react: {
-        version: "detect"
-      }
-    }
-  }
-];
+    plugins: {
+      'simple-import-sort': simpleImportSortPlugin,
+      tsdoc: tsDocPlugin,
+    },
+    rules: {
+      '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-unused-vars': 'error',
+      'no-unused-vars': 'off',
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+      'tsdoc/syntax': 'warn',
+    },
+  },
+);
