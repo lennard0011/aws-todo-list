@@ -21,5 +21,5 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm list typescript eslint @typescript-eslint/eslint-plugin
-      - run: eslint --print-config src/index.ts
+      - run: npx eslint --print-config src/webapp/client/web-interface/src/providers/auth-provider.tsx
       - run: npm run lint
