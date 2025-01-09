@@ -6,7 +6,7 @@ import {
 import { Construct } from 'constructs'
 import { join } from 'path'
 
-type Props = {
+interface Props {
   tableName: string
 }
 

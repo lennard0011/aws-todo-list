@@ -1,8 +1,10 @@
-import { Construct } from 'constructs'
-import { AuthRepository } from './user-pool/infrastructure'
-import { Environment, Stack } from 'aws-cdk-lib'
+import type { Environment } from 'aws-cdk-lib'
+import { Stack } from 'aws-cdk-lib'
+import type { Construct } from 'constructs'
 
-type Props = {
+import { AuthRepository } from './user-pool/infrastructure'
+
+interface Props {
   env: Environment
   rootDomain: string
   domainCertificateArn: string

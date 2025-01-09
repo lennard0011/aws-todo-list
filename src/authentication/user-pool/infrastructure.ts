@@ -1,18 +1,19 @@
-import { RemovalPolicy, aws_route53_targets } from 'aws-cdk-lib'
+import { aws_route53_targets, RemovalPolicy } from 'aws-cdk-lib'
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager'
+import type { UserPoolClient } from 'aws-cdk-lib/aws-cognito'
 import {
   AccountRecovery,
   AdvancedSecurityMode,
   OAuthScope,
   UserPool,
-  UserPoolClient,
   VerificationEmailStyle
 } from 'aws-cdk-lib/aws-cognito'
 import { RecordTarget } from 'aws-cdk-lib/aws-route53'
 import { Construct } from 'constructs'
+
 import { addARecord } from '../../utils/addARecord'
 
-type Props = {
+interface Props {
   rootDomain: string
   domainCertificateArn: string
   authenticationDomainName: string

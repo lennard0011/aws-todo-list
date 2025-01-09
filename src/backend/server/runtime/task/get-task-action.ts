@@ -1,4 +1,4 @@
-import { DynamoDbClient } from '../dynamo-db/dynamo-db-client'
+import type { DynamoDbClient } from '../dynamo-db/dynamo-db-client'
 
 export class GetTasksAction {
   constructor(private readonly dynamoDbClient: DynamoDbClient) {}

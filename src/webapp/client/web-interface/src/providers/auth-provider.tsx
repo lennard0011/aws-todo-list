@@ -1,13 +1,14 @@
 import { useNavigate } from '@tanstack/react-router'
-import { FC, ReactNode, createContext, useEffect, useState } from 'react'
+import type { FC, ReactNode } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
-type Token = {
+interface Token {
   idToken: string
   accessToken: string
   refreshToken: string
 }
 
-type AuthContextProps = {
+interface AuthContextProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fetchFromBackend: (
     url: string,
@@ -22,16 +23,24 @@ type AuthContextProps = {
 }
 
 export const AuthContext = createContext<AuthContextProps>({
-  fetchFromBackend: async () => {},
+  fetchFromBackend: () => {
+    throw new Error('Fetch is not yet set!')
+  },
   isAuthenticated: false,
-  logIn: () => {},
-  logOut: () => {}
+  logIn: () => {
+    throw new Error('Fetch is not yet set!')
+  },
+  logOut: () => {
+    throw new Error('Fetch is not yet set!')
+  }
 })
 
-const WEBAPP_URL = import.meta.env['VITE_WEBAPP_URL']
-const BACKEND_URL = import.meta.env['VITE_BACKEND_URL']
-const AUTH_URL = import.meta.env['VITE_AUTH_URL']
-const USER_POOL_CLIENT_ID = import.meta.env['VITE_USER_POOL_CLIENT_ID']
+const WEBAPP_URL = import.meta.env['VITE_WEBAPP_URL'] as string
+const BACKEND_URL = import.meta.env['VITE_BACKEND_URL'] as string
+const AUTH_URL = import.meta.env['VITE_AUTH_URL'] as string
+const USER_POOL_CLIENT_ID = import.meta.env[
+  'VITE_USER_POOL_CLIENT_ID'
+] as string
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [token, setToken] = useState(undefined as Token | undefined)
@@ -75,7 +84,11 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         return
       }
 
-      const responseJson = await response.json()
+      const responseJson = (await response.json()) as {
+        id_token: string
+        access_token: string
+        refresh_token: string
+      }
       const token: Token = {
         idToken: responseJson.id_token,
         accessToken: responseJson.access_token,
@@ -84,13 +97,12 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       document.cookie = `token=${JSON.stringify(token)}`
       setToken(token)
     }
-
     if (token) return
 
     const cookieTokenString = getTokenFromCookie()
 
     if (cookieTokenString) {
-      const cookieToken = JSON.parse(cookieTokenString)
+      const cookieToken = JSON.parse(cookieTokenString) as Token
       setToken(cookieToken)
       return
     }
@@ -100,29 +112,27 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const code = urlParams.get('code')
 
     if (code) {
-      fetchToken(code)
-      navigate({ to: '/to-do-list', params: '' })
+      void fetchToken(code)
+      void navigate({ to: '/to-do-list', params: '' })
     }
   }, [navigate, token])
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const fetchFromBackend = async (
+  async function fetchFromBackend<ReturnType>(
     url: string,
     method: string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    body?: Record<string, any>
-  ) => {
+    body?: Record<string, string>
+  ) {
     const response = await fetch(`${BACKEND_URL}/${url}`, {
       method,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token?.idToken}`
+        Authorization: `Bearer ${token?.idToken ?? ''}`
       },
 
       body: body ? JSON.stringify(body) : undefined
     })
 
-    console.log(`response.status: ${response.status}`)
+    console.log(`response.status: ${response.status.toString()}`)
 
     if (response.status === 401) {
       console.error('Unauthorized')
@@ -131,7 +141,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       return
     }
 
-    return await response.json()
+    return (await response.json()) as ReturnType
   }
 
   const logIn = () => {

@@ -1,7 +1,7 @@
-import { DynamoDbClient } from '../dynamo-db/dynamo-db-client'
+import type { DynamoDbClient } from '../dynamo-db/dynamo-db-client'
 import { TaskStatus } from './task'
 
-type CreateTaskDto = {
+interface CreateTaskDto {
   title: string
   description: string
 }

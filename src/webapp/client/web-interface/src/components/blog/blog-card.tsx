@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 
-type Props = {
+interface Props {
   url: string
   title: string
   summary: string

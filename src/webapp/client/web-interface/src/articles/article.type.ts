@@ -1,7 +1,9 @@
-export type Article = {
+import type React from 'react'
+
+export interface Article {
   url: string
   title: string
   summary: string
   releaseDate: Date
-  content: JSX.Element
+  content: React.JSX.Element
 }

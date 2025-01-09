@@ -1,12 +1,13 @@
 import { Stage } from 'aws-cdk-lib'
-import { Construct } from 'constructs'
-import { DOMAIN_CERTIFICATE_ARN, DOMAIN_NAME } from '../../../constants'
-import { Authentication } from '../../../authentication/component'
-import { Webapp } from '../../../webapp/component'
-import { Backend } from '../../../backend/component'
-import { Environment } from '../../../app'
+import type { Construct } from 'constructs'
 
-type Props = {
+import type { Environment } from '../../../app'
+import { Authentication } from '../../../authentication/component'
+import { Backend } from '../../../backend/component'
+import { DOMAIN_CERTIFICATE_ARN, DOMAIN_NAME } from '../../../constants'
+import { Webapp } from '../../../webapp/component'
+
+interface Props {
   env: Environment
 }
 

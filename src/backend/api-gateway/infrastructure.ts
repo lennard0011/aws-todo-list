@@ -7,15 +7,15 @@ import {
   Certificate,
   ValidationMethod
 } from 'aws-cdk-lib/aws-certificatemanager'
-import { UserPool } from 'aws-cdk-lib/aws-cognito'
-import { Function } from 'aws-cdk-lib/aws-lambda'
+import type { UserPool } from 'aws-cdk-lib/aws-cognito'
+import type { Function } from 'aws-cdk-lib/aws-lambda'
 import { RecordTarget } from 'aws-cdk-lib/aws-route53'
 import * as routeTargets from 'aws-cdk-lib/aws-route53-targets'
 import { Construct } from 'constructs'
+
 import { addARecord } from '../../utils/addARecord'
 
-type Props = {
-  // eslint-disable-next-line @typescript-eslint/ban-types
+interface Props {
   handler: Function
   rootDomain: string
   domainName: string

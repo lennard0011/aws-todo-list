@@ -1,17 +1,18 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import {
+  DeleteCommand,
   DynamoDBDocumentClient,
-  QueryCommand,
   PutCommand,
-  UpdateCommand,
-  DeleteCommand
+  QueryCommand,
+  UpdateCommand
 } from '@aws-sdk/lib-dynamodb'
 import { randomUUID } from 'crypto'
-import { TaskData, TaskStatus } from '../task/task'
+
+import type { TaskData, TaskStatus } from '../task/task'
 
 const TASK_TABLE_NAME = process.env.TASK_TABLE_NAME!
 
-export type CreateTaskDto = {
+export interface CreateTaskDto {
   title: string
   description: string
   status: TaskStatus
@@ -60,8 +61,15 @@ export class DynamoDbClient {
       }
     })
     const response = await this.client.send(command)
+    const items = response.Items as
+      | { taskId: string; title: string; description: string; status: string }[]
+      | undefined
 
-    const tasks = response.Items?.map((item) => {
+    if (!items) {
+      return []
+    }
+
+    const tasks = items.map((item) => {
       return {
         id: item.taskId,
         title: item.title,

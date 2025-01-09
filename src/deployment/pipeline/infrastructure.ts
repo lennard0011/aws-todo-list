@@ -1,22 +1,23 @@
+import { Stack } from 'aws-cdk-lib'
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import {
   CodeBuildStep,
   CodePipeline,
   CodePipelineSource
 } from 'aws-cdk-lib/pipelines'
-import { Construct } from 'constructs'
-import { Stack } from 'aws-cdk-lib'
-import { ApplicationDeployment } from './application-deployment/infrastructure'
-import { Environment } from '../../app'
+import type { Construct } from 'constructs'
+
+import type { Environment } from '../../app'
 import {
   AUTH_URL,
   BACKEND_URL,
+  DOMAIN_NAME,
   USER_POOL_CLIENT_ID,
-  USER_POOL_ID,
-  DOMAIN_NAME
+  USER_POOL_ID
 } from '../../constants'
+import { ApplicationDeployment } from './application-deployment/infrastructure'
 
-type Props = {
+interface Props {
   env: Environment
   githubRepo: string
   githubBranch: string

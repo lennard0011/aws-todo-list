@@ -1,8 +1,9 @@
 import { useContext } from 'react'
-import { TaskContext } from '../../providers/task-provider'
-import { Task } from './task'
 
-type Props = {
+import { TaskContext } from '../../providers/task-provider'
+import type { Task } from './task'
+
+interface Props {
   task: Task
 }
 
@@ -17,7 +18,13 @@ export const TaskCard = (props: Props) => {
       </header>
       <p>{description}</p>
       <footer>
-        <button onClick={() => deleteTask(id)}>🗑️</button>
+        <button
+          onClick={() => {
+            void deleteTask(id)
+          }}
+        >
+          🗑️
+        </button>
       </footer>
     </article>
   )

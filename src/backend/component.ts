@@ -1,12 +1,13 @@
 import { Stack } from 'aws-cdk-lib'
-import { Construct } from 'constructs'
-import { Environment } from '../app'
-import { Server } from './server/infrastructure'
-import { ApiGateway } from './api-gateway/infrastructure'
-import { UserPool } from 'aws-cdk-lib/aws-cognito'
-import { Database } from './database/infrastructure'
+import type { UserPool } from 'aws-cdk-lib/aws-cognito'
+import type { Construct } from 'constructs'
 
-type Props = {
+import type { Environment } from '../app'
+import { ApiGateway } from './api-gateway/infrastructure'
+import { Database } from './database/infrastructure'
+import { Server } from './server/infrastructure'
+
+interface Props {
   env: Environment
   rootDomain: string
   domainName: string

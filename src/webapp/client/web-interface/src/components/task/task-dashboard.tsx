@@ -1,8 +1,9 @@
 import { useContext } from 'react'
+
 import { AuthContext } from '../../providers/auth-provider'
-import { TaskList } from './task-list'
-import { TaskForm } from './task-form'
 import { TaskProvider } from '../../providers/task-provider'
+import { TaskForm } from './task-form'
+import { TaskList } from './task-list'
 
 export const TaskDashboard = () => {
   const { isAuthenticated } = useContext(AuthContext)

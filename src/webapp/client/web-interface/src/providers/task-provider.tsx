@@ -1,69 +1,74 @@
-import { createContext, FC, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
-import { AuthContext } from './auth-provider';
-import { Task } from '../components/task/task';
+import type { FC, ReactNode } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 
-export type CreateTaskDto = {
-    title: string;
-    description: string;
-};
+import type { Task } from '../components/task/task'
+import { AuthContext } from './auth-provider'
 
-type TaskContextProps = {
-    tasks: Task[];
-    createTask: (createTaskDto: CreateTaskDto) => void;
-    deleteTask: (id: string) => void;
+export interface CreateTaskDto {
+  title: string
+  description: string
+}
+
+interface TaskContextProps {
+  tasks: Task[]
+  createTask: (createTaskDto: CreateTaskDto) => Promise<void>
+  deleteTask: (id: string) => Promise<void>
 }
 
 export const TaskContext = createContext<TaskContextProps>({
-    tasks: [],
-    createTask: () => {},
-    deleteTask: () => {},
-});
+  tasks: [],
+  createTask: () => {
+    throw new Error('Fetch is not yet set!')
+  },
+  deleteTask: () => {
+    throw new Error('Fetch is not yet set!')
+  }
+})
 
 export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const { fetchFromBackend } = useContext(AuthContext);
-    const [tasks, setTasks] = useState<Task[]>([]);
+  const { fetchFromBackend } = useContext(AuthContext)
+  const [tasks, setTasks] = useState<Task[]>([])
 
-    const fetchTasks = useCallback(async () => {
-        const tasks = await fetchFromBackend('task', 
-            'GET',
-        ) as Task[];
-        
-        setTasks(tasks);
-    }, [fetchFromBackend]);
+  const fetchTasks = useCallback(async () => {
+    const tasks = (await fetchFromBackend('task', 'GET')) as Task[]
 
+    setTasks(tasks)
+  }, [fetchFromBackend])
 
-    useEffect(() => {
-        fetchTasks();
-    }, [fetchTasks]);
+  useEffect(() => {
+    void fetchTasks()
+  }, [fetchTasks])
 
-    function createTask (createTaskDto: CreateTaskDto) {
-        async function postTask(createTaskDto: CreateTaskDto) {
-            await fetchFromBackend('task', 
-                'POST',
-                {title: createTaskDto.title, description: createTaskDto.description},
-            );
-            await fetchTasks();
-        }
-        
-        postTask(createTaskDto);
+  async function createTask(createTaskDto: CreateTaskDto) {
+    async function postTask(createTaskDto: CreateTaskDto) {
+      await fetchFromBackend('task', 'POST', {
+        title: createTaskDto.title,
+        description: createTaskDto.description
+      })
+      await fetchTasks()
     }
 
-    function deleteTask (id: string) {
-        async function deleteTask(id: string) {
-            await fetchFromBackend(`task/${id}`, 
-                'DELETE',
-            );
-            await fetchTasks();
-        }
-        
-        deleteTask(id);
+    await postTask(createTaskDto)
+  }
+
+  async function deleteTask(id: string) {
+    async function deleteTask(id: string) {
+      await fetchFromBackend(`task/${id}`, 'DELETE')
+      await fetchTasks()
     }
 
-    
+    await deleteTask(id)
+  }
 
-    return (
-        <TaskContext.Provider value={{ tasks, createTask, deleteTask }}>
-            {children}
-        </TaskContext.Provider>
-    );
-};
+  return (
+    <TaskContext.Provider value={{ tasks, createTask, deleteTask }}>
+      {children}
+    </TaskContext.Provider>
+  )
+}

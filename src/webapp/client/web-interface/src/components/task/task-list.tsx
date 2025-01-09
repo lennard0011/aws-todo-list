@@ -1,6 +1,7 @@
 import { useContext } from 'react'
-import { TaskCard } from './task-card'
+
 import { TaskContext } from '../../providers/task-provider'
+import { TaskCard } from './task-card'
 
 export const TaskList = () => {
   const { tasks } = useContext(TaskContext)

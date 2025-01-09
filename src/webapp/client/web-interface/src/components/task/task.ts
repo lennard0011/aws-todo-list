@@ -4,7 +4,7 @@ export enum TaskStatus {
   DONE = 'DONE'
 }
 
-export type TaskData = {
+export interface TaskData {
   title: string
   description: string
   status: TaskStatus

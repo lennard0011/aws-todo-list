@@ -1,8 +1,9 @@
+import type { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
+
 import { DynamoDbClient } from './dynamo-db/dynamo-db-client'
 import { CreateTaskAction } from './task/create-task-action'
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
-import { GetTasksAction } from './task/get-task-action'
 import { DeleteTaskAction } from './task/delete-task-action'
+import { GetTasksAction } from './task/get-task-action'
 
 const notAuthorizedResponse = {
   statusCode: 401,
@@ -31,7 +32,11 @@ const notFoundResponse = {
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  const userId = event.requestContext?.authorizer?.claims.sub
+  const {
+    sub: { userId: userId }
+  } = event.requestContext.authorizer?.claims as {
+    sub: { userId: string | undefined }
+  }
 
   if (!userId) {
     return notAuthorizedResponse
