@@ -19,7 +19,9 @@ export default tseslint.config(
       },
     },
     plugins: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       'simple-import-sort': simpleImportSortPlugin,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       tsdoc: tsDocPlugin,
     },
     rules: {

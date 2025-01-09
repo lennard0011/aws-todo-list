@@ -9,7 +9,7 @@ import {
   SecurityPolicyProtocol,
   ViewerProtocolPolicy
 } from 'aws-cdk-lib/aws-cloudfront'
-import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins'
+import { S3Origin, S3StaticWebsiteOrigin } from 'aws-cdk-lib/aws-cloudfront-origins'
 import { CanonicalUserPrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets'
@@ -74,9 +74,8 @@ export class ContentDeliveryNetwork extends Construct {
         }
       ],
       defaultBehavior: {
-        origin: new S3Origin(sourceBucket, {
-          originAccessIdentity: cloudfrontOAI
-        }),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        origin: new S3StaticWebsiteOrigin(sourceBucket),
         allowedMethods: AllowedMethods.ALLOW_GET_HEAD,
         compress: true,
         cachedMethods: CachedMethods.CACHE_GET_HEAD,

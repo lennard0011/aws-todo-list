@@ -3,7 +3,6 @@ import { Certificate } from 'aws-cdk-lib/aws-certificatemanager'
 import type { UserPoolClient } from 'aws-cdk-lib/aws-cognito'
 import {
   AccountRecovery,
-  AdvancedSecurityMode,
   OAuthScope,
   UserPool,
   VerificationEmailStyle
@@ -51,8 +50,6 @@ export class AuthRepository extends Construct {
       },
       accountRecovery: AccountRecovery.EMAIL_ONLY,
       removalPolicy: RemovalPolicy.DESTROY,
-      // Advanced security features are disabled as they are outside the free tier
-      advancedSecurityMode: AdvancedSecurityMode.OFF
     })
 
     //needs to be certificate from us-east-1

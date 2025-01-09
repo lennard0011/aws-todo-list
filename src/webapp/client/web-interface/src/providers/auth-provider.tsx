@@ -40,7 +40,7 @@ const BACKEND_URL = import.meta.env['VITE_BACKEND_URL'] as string
 const AUTH_URL = import.meta.env['VITE_AUTH_URL'] as string
 const USER_POOL_CLIENT_ID = import.meta.env[
   'VITE_USER_POOL_CLIENT_ID'
-] as string
+] as string      
 
 const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [token, setToken] = useState(undefined as Token | undefined)
