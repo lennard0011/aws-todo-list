@@ -5,19 +5,21 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
-    branches: [ "main" ]
+    branches: ['main']
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Lint check
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20.x
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run lint
+      - uses: actions/checkout@v4
+      - name: Lint check
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+      - run: npm list typescript eslint @typescript-eslint/eslint-plugin
+      - run: eslint --print-config src/index.ts
+      - run: npm ci
+      - run: npm run lint
