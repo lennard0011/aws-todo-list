@@ -8,7 +8,7 @@ import {
   ValidationMethod
 } from 'aws-cdk-lib/aws-certificatemanager'
 import type { UserPool } from 'aws-cdk-lib/aws-cognito'
-import type { Function } from 'aws-cdk-lib/aws-lambda'
+import type { Function as LambdaFunction } from 'aws-cdk-lib/aws-lambda'
 import { RecordTarget } from 'aws-cdk-lib/aws-route53'
 import * as routeTargets from 'aws-cdk-lib/aws-route53-targets'
 import { Construct } from 'constructs'
@@ -16,7 +16,7 @@ import { Construct } from 'constructs'
 import { addARecord } from '../../utils/addARecord'
 
 interface Props {
-  handler: Function
+  handler: LambdaFunction
   rootDomain: string
   domainName: string
   userPool: UserPool
