@@ -1,5 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
-import type { FC, ReactNode, useCallback } from 'react'
+import type { FC, ReactNode } from 'react'
 import { createContext, useEffect, useState } from 'react'
 
 interface Token {
