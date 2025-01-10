@@ -36,7 +36,7 @@ describe('CreateTaskAction', () => {
         });
 
         expect(response).toEqual({
-            statusCode: 2001,
+            statusCode: 200,
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
