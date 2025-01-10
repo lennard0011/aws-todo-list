@@ -1,8 +1,12 @@
+/** @type {import('ts-jest').JestConfigWithTsJest} **/
+// eslint-disable-next-line no-undef
 module.exports = {
-  testEnvironment: 'node',
-  roots: ['<rootDir>/test'],
-  testMatch: ['**/*.test.ts'],
+  preset: "ts-jest",
+  testEnvironment: "node",
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
-  }
+    "^.+.tsx?$": ["ts-jest",{
+      isolatedModules: true
+  }],
+  },
+  testMatch: ['<rootDir>/src/**/*.test.ts']
 };
