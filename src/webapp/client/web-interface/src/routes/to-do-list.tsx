@@ -7,7 +7,6 @@ import AuthProvider from '../providers/auth-provider'
 export const Route = createFileRoute('/to-do-list')({
   component: () => (
     <>
-      <h1>Todo List - Lennard van der Plas</h1>
       <AuthProvider>
         <Status />
         <TaskDashboard />

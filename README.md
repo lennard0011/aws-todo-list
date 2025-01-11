@@ -22,10 +22,10 @@ Remember that the user themself needs to do the following things:
 - [x] Look into uses of matcha [https://matcha.mizu.sh/#article]
 - [x] Configure automated fix of linting and formatting.
 - [x] Add selected navigation.
-- [ ] Protect Github branch creation.
-- [ ] Add tests to check if the application is working.
-- [ ] Add tests to check if the formatting and linting is correct.
-- [ ] Add blog post about effort.
+- [x] Protect Github branch creation.
+- [x] Add tests to check if the application is working.
+- [x] Add tests to check if the formatting and linting is correct.
+- [x] Add blog post about effort.
 
 # Notes
 * Currently the CDK pipeline is turned off to reduce costs. Deploying is being done locally.

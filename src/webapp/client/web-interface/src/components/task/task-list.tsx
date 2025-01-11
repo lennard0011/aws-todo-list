@@ -7,11 +7,12 @@ export const TaskList = () => {
   const { tasks } = useContext(TaskContext)
 
   return (
-    <div>
-      <h2>Task List</h2>
-      {tasks.map((task) => (
-        <TaskCard task={task} key={task.id} />
-      ))}
+    <div style={{}}>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {tasks.map((task) => (
+          <TaskCard task={task} key={task.id} />
+        ))}
+      </div>
     </div>
   )
 }
