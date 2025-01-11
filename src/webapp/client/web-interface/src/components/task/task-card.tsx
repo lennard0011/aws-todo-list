@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
 import { TaskContext } from '../../providers/task-provider'
 import type { Task } from './task'
@@ -10,22 +10,30 @@ interface Props {
 export const TaskCard = (props: Props) => {
   const { id, title, description, status } = props.task
   const { deleteTask } = useContext(TaskContext)
+  const [isDeleted, setIsDeleted] = useState(false)
+
+  const deleteThisTask = () => {
+    setIsDeleted(true)
+    deleteTask(id)
+  }
 
   return (
-    <article>
-      <header>
-        {title} {status}
-      </header>
-      <p>{description}</p>
-      <footer>
-        <button
-          onClick={() => {
-            void deleteTask(id)
-          }}
-        >
-          🗑️
-        </button>
-      </footer>
-    </article>
+    !isDeleted && (
+      <article style={{ minWidth: 200 }}>
+        <header>
+          {title} {status}
+        </header>
+        <p>{description}</p>
+        <footer>
+          <button
+            onClick={() => {
+              void deleteThisTask()
+            }}
+          >
+            🗑️
+          </button>
+        </footer>
+      </article>
+    )
   )
 }

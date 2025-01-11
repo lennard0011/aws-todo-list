@@ -128,8 +128,7 @@ const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token?.idToken ?? ''}`
       },
-
-      body: body ? JSON.stringify(body) : undefined
+      body: body && JSON.stringify(body)
     })
 
     console.log(`response.status: ${response.status.toString()}`)

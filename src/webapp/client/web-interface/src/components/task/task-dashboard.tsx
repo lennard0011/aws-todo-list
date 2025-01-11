@@ -9,16 +9,17 @@ export const TaskDashboard = () => {
   const { isAuthenticated } = useContext(AuthContext)
 
   return (
-    <>
-      <h1>Task Dashboard</h1>
+    <div style={{ padding: 20 }}>
       {isAuthenticated ? (
         <TaskProvider>
-          <TaskForm />
-          <TaskList />
+          <div style={{ display: 'flex' }}>
+            <TaskForm />
+            <TaskList />
+          </div>
         </TaskProvider>
       ) : (
         <p>Not Authenticated</p>
       )}
-    </>
+    </div>
   )
 }
