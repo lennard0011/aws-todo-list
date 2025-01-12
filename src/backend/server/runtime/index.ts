@@ -32,10 +32,8 @@ const notFoundResponse = {
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  const {
-    sub: { userId: userId }
-  } = event.requestContext.authorizer?.claims as {
-    sub: { userId: string | undefined }
+  const { sub: userId } = event.requestContext.authorizer?.claims as {
+    sub: string
   }
 
   if (!userId) {
