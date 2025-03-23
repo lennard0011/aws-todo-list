@@ -23,7 +23,7 @@ export const Blog: () => Article = () => {
         was one video fo 14 hours. However, the SA course is 80 hours. This
         required more discipline and planning. I decided to follow the course
         every morning before I go to office. This way I could ensure that I had
-        a fixed time to study which wouldn't easily be interrupted by other
+        a fixed time to study which would not easily be interrupted by other
         work.
       </p>
       <p>
@@ -35,6 +35,7 @@ export const Blog: () => Article = () => {
         <a
           href='https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html'
           target='_blank'
+          rel='noreferrer'
         >
           source
         </a>
@@ -48,9 +49,9 @@ export const Blog: () => Article = () => {
       <p>
         Overall the course is delivers a deepening level relative to the CP
         level. The course takes the time to combine the theory with practical
-        demo's. This is in my opinion a key difference which will set me up for
-        success in my career and will differentiate me from others who have just
-        put the facts in their memory. The content is not too complex, the
+        demo&apos;s. This is in my opinion a key difference which will set me up
+        for success in my career and will differentiate me from others who have
+        just put the facts in their memory. The content is not too complex, the
         difficulty is mainly in the amount of content. I am now at 70% of the
         course and I am confident I will pass the exam. I will keep you updated
         on my progress.
