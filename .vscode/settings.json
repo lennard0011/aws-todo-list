@@ -9,5 +9,7 @@
     "typescript.tsdk": "node_modules\\typescript\\lib",
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit",
-    }
+    },
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
 }

@@ -1,6 +1,6 @@
 import type { Article } from './../article.type'
 
-export const Blog: () => Article = () => {
+export const Blog: () => Article = () => {  
   const url = '/blog/posts/0001-building-aws-cloud-resume-challenge'
   const title = 'Taking on the AWS Cloud Resume Challenge'
   const summary =
@@ -8,7 +8,6 @@ export const Blog: () => Article = () => {
   const releaseDate = new Date('2025-01-05')
   const content = (
     <>
-      <h2>{title}</h2>
       <p>
         While studying about software engineering I decided in May 2024 to learn
         more about the one cloud platform (almost) everyone is using, Amazon Web
