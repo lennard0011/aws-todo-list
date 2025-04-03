@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as ToDoListImport } from './routes/to-do-list'
 import { Route as IndexImport } from './routes/index'
 import { Route as BlogIndexImport } from './routes/blog/index'
+import { Route as BlogPosts0002LearningForTheSolutionArchitectCertificateImport } from './routes/blog/posts/0002-learning-for-the-solution-architect-certificate'
 import { Route as BlogPosts0001BuildingAwsCloudResumeChallengeImport } from './routes/blog/posts/0001-building-aws-cloud-resume-challenge'
 
 // Create/Update Routes
@@ -32,6 +33,12 @@ const BlogIndexRoute = BlogIndexImport.update({
   path: '/blog/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const BlogPosts0002LearningForTheSolutionArchitectCertificateRoute =
+  BlogPosts0002LearningForTheSolutionArchitectCertificateImport.update({
+    path: '/blog/posts/0002-learning-for-the-solution-architect-certificate',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 const BlogPosts0001BuildingAwsCloudResumeChallengeRoute =
   BlogPosts0001BuildingAwsCloudResumeChallengeImport.update({
@@ -71,6 +78,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogPosts0001BuildingAwsCloudResumeChallengeImport
       parentRoute: typeof rootRoute
     }
+    '/blog/posts/0002-learning-for-the-solution-architect-certificate': {
+      id: '/blog/posts/0002-learning-for-the-solution-architect-certificate'
+      path: '/blog/posts/0002-learning-for-the-solution-architect-certificate'
+      fullPath: '/blog/posts/0002-learning-for-the-solution-architect-certificate'
+      preLoaderRoute: typeof BlogPosts0002LearningForTheSolutionArchitectCertificateImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -81,6 +95,7 @@ export const routeTree = rootRoute.addChildren({
   ToDoListRoute,
   BlogIndexRoute,
   BlogPosts0001BuildingAwsCloudResumeChallengeRoute,
+  BlogPosts0002LearningForTheSolutionArchitectCertificateRoute,
 })
 
 /* prettier-ignore-end */
@@ -94,7 +109,8 @@ export const routeTree = rootRoute.addChildren({
         "/",
         "/to-do-list",
         "/blog/",
-        "/blog/posts/0001-building-aws-cloud-resume-challenge"
+        "/blog/posts/0001-building-aws-cloud-resume-challenge",
+        "/blog/posts/0002-learning-for-the-solution-architect-certificate"
       ]
     },
     "/": {
@@ -108,6 +124,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/blog/posts/0001-building-aws-cloud-resume-challenge": {
       "filePath": "blog/posts/0001-building-aws-cloud-resume-challenge.tsx"
+    },
+    "/blog/posts/0002-learning-for-the-solution-architect-certificate": {
+      "filePath": "blog/posts/0002-learning-for-the-solution-architect-certificate.tsx"
     }
   }
 }

@@ -1,5 +1,11 @@
 import type { Article } from '../../articles/article.type'
 
 export const BlogContent = (props: { article: Article }) => {
-  return props.article.content
+  const { title, content } = props.article
+  return (
+    <>
+      <h2>{title}</h2>
+      <>{content}</>
+    </>
+  )
 }
