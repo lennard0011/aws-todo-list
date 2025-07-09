@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as ToDoListImport } from './routes/to-do-list'
 import { Route as IndexImport } from './routes/index'
 import { Route as BlogIndexImport } from './routes/blog/index'
+import { Route as BlogPosts0004AmazonQDeveloperGameBuilderChallengeImport } from './routes/blog/posts/0004-amazon-q-developer-game-builder-challenge'
 import { Route as BlogPosts0003HowToGetTheMostOutOfAwsSummitImport } from './routes/blog/posts/0003-how-to-get-the-most-out-of-aws-summit'
 import { Route as BlogPosts0002LearningForTheSolutionArchitectCertificateImport } from './routes/blog/posts/0002-learning-for-the-solution-architect-certificate'
 import { Route as BlogPosts0001BuildingAwsCloudResumeChallengeImport } from './routes/blog/posts/0001-building-aws-cloud-resume-challenge'
@@ -34,6 +35,12 @@ const BlogIndexRoute = BlogIndexImport.update({
   path: '/blog/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const BlogPosts0004AmazonQDeveloperGameBuilderChallengeRoute =
+  BlogPosts0004AmazonQDeveloperGameBuilderChallengeImport.update({
+    path: '/blog/posts/0004-amazon-q-developer-game-builder-challenge',
+    getParentRoute: () => rootRoute,
+  } as any)
 
 const BlogPosts0003HowToGetTheMostOutOfAwsSummitRoute =
   BlogPosts0003HowToGetTheMostOutOfAwsSummitImport.update({
@@ -99,6 +106,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogPosts0003HowToGetTheMostOutOfAwsSummitImport
       parentRoute: typeof rootRoute
     }
+    '/blog/posts/0004-amazon-q-developer-game-builder-challenge': {
+      id: '/blog/posts/0004-amazon-q-developer-game-builder-challenge'
+      path: '/blog/posts/0004-amazon-q-developer-game-builder-challenge'
+      fullPath: '/blog/posts/0004-amazon-q-developer-game-builder-challenge'
+      preLoaderRoute: typeof BlogPosts0004AmazonQDeveloperGameBuilderChallengeImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -111,6 +125,7 @@ export const routeTree = rootRoute.addChildren({
   BlogPosts0001BuildingAwsCloudResumeChallengeRoute,
   BlogPosts0002LearningForTheSolutionArchitectCertificateRoute,
   BlogPosts0003HowToGetTheMostOutOfAwsSummitRoute,
+  BlogPosts0004AmazonQDeveloperGameBuilderChallengeRoute,
 })
 
 /* prettier-ignore-end */
@@ -126,7 +141,8 @@ export const routeTree = rootRoute.addChildren({
         "/blog/",
         "/blog/posts/0001-building-aws-cloud-resume-challenge",
         "/blog/posts/0002-learning-for-the-solution-architect-certificate",
-        "/blog/posts/0003-how-to-get-the-most-out-of-aws-summit"
+        "/blog/posts/0003-how-to-get-the-most-out-of-aws-summit",
+        "/blog/posts/0004-amazon-q-developer-game-builder-challenge"
       ]
     },
     "/": {
@@ -146,6 +162,9 @@ export const routeTree = rootRoute.addChildren({
     },
     "/blog/posts/0003-how-to-get-the-most-out-of-aws-summit": {
       "filePath": "blog/posts/0003-how-to-get-the-most-out-of-aws-summit.tsx"
+    },
+    "/blog/posts/0004-amazon-q-developer-game-builder-challenge": {
+      "filePath": "blog/posts/0004-amazon-q-developer-game-builder-challenge.tsx"
     }
   }
 }
