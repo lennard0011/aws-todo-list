@@ -1,7 +1,4 @@
 import type { Article } from '../article.type'
-import summitAwsCardImage from './../../assets/summit-aws-card.jpg'
-import summitAwsCakeImage from './../../assets/summit-aws-cake.jpg'
-import summitSlidesLessonsLearnedImage from './../../assets/summit-slides-lessons-learned.jpg'
 
 export const Blog: () => Article = () => {
   const url = '/blog/posts/0004-amazon-q-developer-game-builder-challenge'
