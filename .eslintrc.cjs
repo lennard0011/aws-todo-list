@@ -14,14 +14,15 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': [
       'warn',
-      { allowConstantExport: true },
+      { allowConstantExport: true }
     ],
-    'react/jsx-uses-react': 'off',  // Disable the warning about React being in scope
+    'react/jsx-uses-react': 'off', // Disable the warning about React being in scope
     'react/react-in-jsx-scope': 'off', // This rule is also helpful to disable if you're on React 17+
+    'react/no-unescaped-entities': 'off' // Disable the rule that prevents unescaped entities in JSX
   },
   settings: {
     react: {
-      version: 'detect', // Automatically detect the React version
-    },
-  },
+      version: 'detect' // Automatically detect the React version
+    }
+  }
 }
