@@ -3,10 +3,11 @@ import type { Article } from '../article.type'
 export const Blog: () => Article = () => {
   const url =
     '/blog/posts/0005-aws-solutions-architect-developer-associate-certificates'
-  const title = 'AWS Solutions Architect and Developer Associate Certificates'
+  const title =
+    'Achieving the AWS Solutions Architect and Developer Associate Certificates'
   const summary =
     'Successfully earning AWS Solutions Architect and Developer Associate certifications'
-  const releaseDate = new Date('2025-01-15')
+  const releaseDate = new Date('2025-08-14')
   const content = (
     <>
       <p>
@@ -23,8 +24,16 @@ export const Blog: () => Article = () => {
       <p>
         I wanted to deepen my understanding of AWS and its services. I also
         wanted to challenge myself and prove my skills in cloud computing. The
-        certifications are a great way to validate my knowledge and enhance my
-        career prospects.
+        certifications are a great way to validate my knowledge, have a clear
+        milestone and enhance my career prospects.
+      </p>
+
+      <h2>How did I do this?</h2>
+      <p>
+        I created a study plan and followed it diligently. I used various
+        resources such as online courses such as the course from Adrian Cantrill
+        and practise exams from Tutorial Dojo. I can heavily recommend these
+        resources.
       </p>
 
       <h2>What did I learn?</h2>
@@ -37,9 +46,10 @@ export const Blog: () => Article = () => {
       </p>
       <h2>What is next?</h2>
       <p>
-        I plan to continue my AWS journey by exploring more advanced topics and
-        services. Additionally, I want to share my knowledge with others and
-        help them on their own AWS journeys.
+        First of all, I will take a break for studying. I will enjoy some time
+        off and focus on developing myself on other fields like collaboration
+        and impact. Later this year I do plan to pursue a CKAD certificate from
+        Kubernetes.
       </p>
     </>
   )
