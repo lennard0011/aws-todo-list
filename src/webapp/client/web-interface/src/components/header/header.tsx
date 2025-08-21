@@ -49,11 +49,7 @@ export const Header = () => {
               </a>
             </li>
             <li title='Resume'>
-              <a
-                href={resumePdf}
-                target='_blank'
-                rel='noreferrer'
-              >
+              <a href={resumePdf} target='_blank' rel='noreferrer'>
                 📄
               </a>
             </li>
