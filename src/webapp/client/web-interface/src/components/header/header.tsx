@@ -1,4 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router'
+import resumePdf from '../../assets/CV-English.pdf'
 
 export const Header = () => {
   const pathname = useLocation().pathname
@@ -45,6 +46,15 @@ export const Header = () => {
                 rel='noreferrer'
               >
                 🇱
+              </a>
+            </li>
+            <li title='Resume'>
+              <a
+                href={resumePdf}
+                target='_blank'
+                rel='noreferrer'
+              >
+                📄
               </a>
             </li>
           </menu>
