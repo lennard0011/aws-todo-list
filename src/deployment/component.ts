@@ -20,7 +20,7 @@ export class Deployment extends Stack {
 
     this.pipeline = new GitHubWorkflow(this, 'GitHubWorkflow', {
       synth: new ShellStep('Build', {
-        commands: ['npm ci', ' npm run all:build']
+        commands: ['npm ci', ' npm run all:build', 'npx cdk synth']
       }),
       awsCreds: AwsCredentials.fromOpenIdConnect({
         gitHubActionRoleArn: `arn:aws:iam::${props.env.account}:role/GitHubActionsRole`,
