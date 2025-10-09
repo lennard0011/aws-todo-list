@@ -11,7 +11,12 @@ export default defineConfig({
     rollupOptions: {
       output: {
         entryFileNames: 'bundle.js',
-        assetFileNames: 'style.css',
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name?.endsWith('.css')) {
+            return 'style.css'
+          }
+          return '[name][extname]'
+        },
         chunkFileNames: 'chunk.js',
         manualChunks: undefined
       }
