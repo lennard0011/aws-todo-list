@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-import { App } from 'aws-cdk-lib'
+import { App, Stack, StackProps } from 'aws-cdk-lib'
+import { Construct } from 'constructs'
+import { GitHubActionRole } from 'cdk-pipelines-github'
 
 import { GITHUB_REPO } from './constants'
 import { Deployment } from './deployment/component'
@@ -21,6 +23,17 @@ const deploymentProps = {
   githubRepo: GITHUB_REPO,
   githubBranch: 'main'
 }
+class MyGitHubActionRole extends Stack {
+  constructor(scope: Construct, id: string, props?: StackProps) {
+    super(scope, id, props)
+
+    new GitHubActionRole(this, 'github-action-role', {
+      repos: [GITHUB_REPO]
+    })
+  }
+}
+
+new MyGitHubActionRole(app, 'MyGitHubActionRoleStack')
 
 new Deployment(app, 'ToDoListDeployment', deploymentProps)
 
