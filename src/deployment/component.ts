@@ -28,17 +28,19 @@ export class Deployment extends Stack {
         commands: ['npm ci', ' npm run all:build', 'npx cdk synth']
       }),
       awsCreds,
-      preBuildSteps: [{
-        name: 'Authenticate Via OIDC Role',
-        uses: 'aws-actions/configure-aws-credentials@v4',
-        with: {
-          'aws-region': props.env.region,
-          'role-duration-seconds': 1800,
-          'role-skip-session-tagging': true,
-          'role-to-assume': `arn:aws:iam::${props.env.account}:role/GitHubActionsRole`,
-          'role-session-name': 'GitHubActionsSession'
+      preBuildSteps: [
+        {
+          name: 'Authenticate Via OIDC Role',
+          uses: 'aws-actions/configure-aws-credentials@v4',
+          with: {
+            'aws-region': 'us-east-1',
+            'role-duration-seconds': 1800,
+            'role-skip-session-tagging': true,
+            'role-to-assume': `arn:aws:iam::${props.env.account}:role/GitHubActionsRole`,
+            'role-session-name': 'GitHubActionsSession'
+          }
         }
-      }]
+      ]
     })
 
     const applicationDeployment = new ApplicationDeployment(
