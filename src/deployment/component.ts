@@ -19,7 +19,7 @@ export class Deployment extends Stack {
     super(scope, id, props)
 
     const awsCreds = AwsCredentials.fromOpenIdConnect({
-      gitHubActionRoleArn: `arn:aws:iam::${props.env.account}:role/GitHubActionRole`,
+      gitHubActionRoleArn: `arn:aws:iam::${props.env.account}:role/GitHubActionsRole`,
       roleSessionName: 'GitHubActionsSession'
     })
 
@@ -36,7 +36,7 @@ export class Deployment extends Stack {
             'aws-region': 'us-east-1',
             'role-duration-seconds': 1800,
             'role-skip-session-tagging': true,
-            'role-to-assume': `arn:aws:iam::${props.env.account}:role/GitHubActionRole`,
+            'role-to-assume': `arn:aws:iam::${props.env.account}:role/GitHubActionsRole`,
             'role-session-name': 'GitHubActionsSession'
           }
         }
