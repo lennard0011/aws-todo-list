@@ -3,7 +3,7 @@ import { App, Stack, StackProps } from 'aws-cdk-lib'
 import { Construct } from 'constructs'
 import { GitHubActionRole } from 'cdk-pipelines-github'
 
-import { GITHUB_REPO } from './constants'
+import { ACCOUNT_ID, GITHUB_REPO, REGION } from './constants'
 import { Deployment } from './deployment/component'
 
 export interface Environment {
@@ -14,8 +14,8 @@ export interface Environment {
 const app = new App()
 
 const env = {
-  account: process.env.CDK_DEFAULT_ACCOUNT || '154880243201', // Replace with your AWS account ID
-  region: process.env.CDK_DEFAULT_REGION || 'eu-central-1'
+  account: ACCOUNT_ID,
+  region: REGION
 }
 
 const deploymentProps = {
@@ -23,6 +23,7 @@ const deploymentProps = {
   githubRepo: GITHUB_REPO,
   githubBranch: 'main'
 }
+
 class MyGitHubActionRole extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props)
