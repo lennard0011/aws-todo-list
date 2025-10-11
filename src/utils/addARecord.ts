@@ -9,9 +9,8 @@ export function addARecord(
   newRecord: string,
   target: RecordTarget
 ) {
-  const zone = HostedZone.fromHostedZoneAttributes(scope, 'RootZone', {
-    hostedZoneId: 'Z0735190VG54XP3T7JBL',
-    zoneName: rootDomain
+  const zone = HostedZone.fromLookup(scope, 'RootZone', {
+    domainName: rootDomain
   })
 
   new ARecord(scope, aRecordLogicalId, {
