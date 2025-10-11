@@ -14,8 +14,8 @@ export interface Environment {
 const app = new App()
 
 const env = {
-  account: process.env.CDK_DEFAULT_ACCOUNT || '154880243201', // Replace with your AWS account ID
-  region: process.env.CDK_DEFAULT_REGION || 'eu-central-1'
+  account: process.env.CDK_DEFAULT_ACCOUNT!,
+  region: process.env.CDK_DEFAULT_REGION!
 }
 
 const deploymentProps = {
