@@ -18,27 +18,14 @@ export class Deployment extends Stack {
   constructor(scope: Construct, id: string, props: Props) {
     super(scope, id, props)
 
-    const awsCreds = AwsCredentials.fromOpenIdConnect({
-      gitHubActionRoleArn: `arn:aws:iam::${props.env.account}:role/GitHubActionsRole`,
-      roleSessionName: 'GitHubActionsSession'
-    })
-
     this.pipeline = new GitHubWorkflow(this, 'GitHubWorkflow', {
       synth: new ShellStep('Build', {
         commands: ['npm ci', ' npm run all:build', 'npx cdk synth']
       }),
-      awsCreds,
-      preBuildSteps: [{
-        name: 'Authenticate Via OIDC Role',
-        uses: 'aws-actions/configure-aws-credentials@v4',
-        with: {
-          'aws-region': props.env.region,
-          'role-duration-seconds': 1800,
-          'role-skip-session-tagging': true,
-          'role-to-assume': `arn:aws:iam::${props.env.account}:role/GitHubActionsRole`,
-          'role-session-name': 'GitHubActionsSession'
-        }
-      }]
+      awsCreds: AwsCredentials.fromOpenIdConnect({
+        gitHubActionRoleArn: `arn:aws:iam::${props.env.account}:role/GitHubActionsRole`,
+        roleSessionName: 'GitHubActionsSession'
+      })
     })
 
     const applicationDeployment = new ApplicationDeployment(
