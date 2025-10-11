@@ -19,7 +19,8 @@ export class Deployment extends Stack {
     super(scope, id, props)
 
     const awsCreds = AwsCredentials.fromOpenIdConnect({
-      gitHubActionRoleArn: `arn:aws:iam::${props.env.account}:role/GitHubActionRole`
+      gitHubActionRoleArn: `arn:aws:iam::${props.env.account}:role/GitHubActionRole`,
+      roleSessionName: 'GitHubActionsSession'
     })
 
     this.pipeline = new GitHubWorkflow(this, 'GitHubWorkflow', {

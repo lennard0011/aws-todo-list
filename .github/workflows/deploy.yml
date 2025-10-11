@@ -63,6 +63,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - id: Publish
         name: Publish Assets-FileAsset1
         run: /bin/bash
@@ -92,6 +93,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - id: Publish
         name: Publish Assets-FileAsset2
         run: /bin/bash
@@ -121,6 +123,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - id: Publish
         name: Publish Assets-FileAsset3
         run: /bin/bash
@@ -150,6 +153,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - id: Publish
         name: Publish Assets-FileAsset4
         run: /bin/bash
@@ -179,6 +183,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - id: Publish
         name: Publish Assets-FileAsset5
         run: /bin/bash
@@ -208,6 +213,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - id: Publish
         name: Publish Assets-FileAsset6
         run: /bin/bash
@@ -237,6 +243,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - id: Publish
         name: Publish Assets-FileAsset7
         run: /bin/bash
@@ -266,6 +273,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - id: Publish
         name: Publish Assets-FileAsset8
         run: /bin/bash
@@ -295,6 +303,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - id: Publish
         name: Publish Assets-FileAsset9
         run: /bin/bash
@@ -318,6 +327,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - name: Assume CDK Deploy Role
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -359,6 +369,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - name: Assume CDK Deploy Role
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -398,6 +409,7 @@ jobs:
           role-duration-seconds: 1800
           role-skip-session-tagging: true
           role-to-assume: arn:aws:iam::154880243201:role/GitHubActionRole
+          role-session-name: GitHubActionsSession
       - name: Assume CDK Deploy Role
         uses: aws-actions/configure-aws-credentials@v4
         with:

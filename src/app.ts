@@ -29,8 +29,7 @@ class MyGitHubActionRole extends Stack {
     super(scope, id, props)
 
     new GitHubActionRole(this, 'github-action-role', {
-      repos: [GITHUB_REPO],
-      roleName: 'GitHubActionRole'
+      repos: [GITHUB_REPO]
     })
   }
 }
