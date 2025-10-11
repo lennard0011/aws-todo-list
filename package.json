@@ -61,7 +61,6 @@
     "@tanstack/react-router": "^1.51.5",
     "aws-amplify": "^6.3.0",
     "aws-cdk-lib": "^2.140.0",
-    "cdk-pipelines-github": "^0.4.132",
     "constructs": "^10.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

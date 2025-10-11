@@ -2,9 +2,6 @@ export const DOMAIN_NAME = 'lennardvanderplas.com'
 export const BACKEND_URL = `api.${DOMAIN_NAME}`
 export const AUTH_URL = `auth.${DOMAIN_NAME}`
 
-export const ACCOUNT_ID = '154880243201'
-export const REGION = 'eu-central-1'
-
 export const DOMAIN_CERTIFICATE_ARN =
   'arn:aws:acm:us-east-1:154880243201:certificate/3ca56716-e17b-4130-9af4-449c31fa2aa8'
 
