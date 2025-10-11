@@ -33,7 +33,7 @@ class MyGitHubActionRole extends Stack {
   }
 }
 
-new MyGitHubActionRole(app, 'MyGitHubActionRoleStack', { env })
+new MyGitHubActionRole(app, 'MyGitHubActionRoleStack')
 
 new Deployment(app, 'ToDoListDeployment', deploymentProps)
 
